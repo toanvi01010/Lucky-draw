@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KAROFI - LUCKY DRAW</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-teal: #00ADEE;
+            --accent-yellow: #ffeb3b;
+            --prize-orange: linear-gradient(to bottom, #f59e0b, #d97706);
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: url('https://karofi.karofi.com/karofi-com/2026/07/bg-vong-quay.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: white;
+            overflow: hidden;
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 60, 90, 0.45);
+            z-index: 0;
+        }
+
+        header, main, footer {
+            position: relative;
+            z-index: 10;
+        }
+
+        .lights-frame {
+            position: relative;
+            display: inline-block;
+            border-radius: 12px;
+            background: #ffeb3b;
+            padding: 6px;
+        }
+
+        .lights-frame-border {
+            position: relative;
+            border-radius: 10px;
+            padding: 14px;
+        }
+
+        .lights-frame-inner {
+            position: relative;
+            border-radius: 20px;
+            background: #ffffff;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 18px;
+        }
+
+        .lights-layer {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+        }
+
+        .light-bulb {
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: #ffffff;
+            opacity: 0.35;
+        }
+
+        .light-bulb.chase-lit {
+            opacity: 1;
+            box-shadow: 0 0 4px 2px #fff, 0 0 10px 4px rgba(255, 230, 150, 0.9);
+        }
+
+        .light-bulb.idle-lit {
+            opacity: 1;
+            box-shadow: 0 0 3px 1px #fff, 0 0 6px 2px rgba(255, 230, 150, 0.6);
+        }
+
+        .slots-strip {
+            display: inline-flex;
+            border-radius: 12px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3), inset 0 0 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .slot-box {
+            width: 65px;
+            height: 90px;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            font-weight: 900;
+            color: #00ADEE;
+            border-right: 1px solid rgba(0, 0, 0, 0.08);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .slot-box:last-child {
+            border-right: none;
+        }
+
+        .slot-digit {
+            display: inline-block;
+            height: 100%;
+            line-height: 90px;
+            text-align: center;
+        }
+
+        @media (max-width: 700px) {
+            .slot-box {
+                width: 40px;
+                height: 60px;
+                font-size: 1.75rem;
+            }
+            .slot-digit {
+                line-height: 60px;
+            }
+        }
+
+        .btn-spin {
+            background: #facc15;
+            color: #ffffff;
+            padding: 5px 50px;
+            font-size: 1rem;
+            font-weight: 900;
+            border-radius: 50px;
+            box-shadow: 0 6px 0 #ca8a04, 0 10px 20px rgba(0,0,0,0.3);
+            transition: all 0.1s;
+            text-transform: uppercase;
+        }
+
+        .btn-spin:active {
+            transform: translateY(4px);
+            box-shadow: 0 2px 0 #ca8a04, 0 6px 10px rgba(0,0,0,0.3);
+        }
+
+        .btn-spin:disabled {
+            background: #9ca3af;
+            box-shadow: 0 6px 0 #4b5563;
+            color: #f3f4f6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .prize-banner {
+            padding: 6px 35px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.9rem;
+        }
+
+        #winner-overlay, #history-overlay, #confirm-overlay {
+            background: rgba(0, 0, 0, 0.9);
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 100;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .winner-card, .history-card {
+            background: white;
+            color: #333;
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            max-width: 980px;
+            width: 95%;
+            border: 8px solid #facc15;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        select {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 8px;
+            outline: none;
+            cursor: pointer;
+            font-size: 0.85rem;
+        }
+
+        select option {
+            background: #00ADEE;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 5px;
+            text-align: left;
+            font-size: 0.8rem;
+        }
+
+        th {
+            background-color: #00ADEE;
+            color: white;
+        }
+
+        tr:nth-child(even) { background-color: #f9f9f9; }
+
+        #audio-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 10px;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 50;
+        }
+    </style>
+</head>
+<body>
+    <!-- UI Header -->
+    <header class="p-6 flex items-center z-20">
+        <div class="flex-1"></div>
+
+        <!-- Center Logo - New URL & Smaller size -->
+        <div class="flex-1 flex justify-center">
+            <img src="https://karofi.karofi.com/karofi-com/2026/06/logo-karofi-300px.png" alt="Karofi Logo" class="h-14 w-auto object-contain">
+        </div>
+
+        <!-- Controls Right -->
+        <div class="flex-1 flex items-center justify-end gap-5">
+            <div class="flex flex-col">
+                <label class="text-[9px] uppercase opacity-70 mb-1 font-bold">Giải thưởng</label>
+                <select id="prize-select" onchange="updatePrizeUI()">
+                    <option value="Giải Đặc Biệt" selected>Giải Đặc Biệt</option>
+                    <option value="Giải Nhất">Giải Nhất</option>
+                    <option value="Giải Nhì">Giải Nhì</option>
+                    <option value="Giải Ba">Giải Ba</option>
+                </select>
+            </div>
+            <div class="flex flex-col items-center">
+                <label class="text-[9px] uppercase opacity-70 mb-1 font-bold">Số lượng</label>
+                <div id="prize-remaining-badge" class="bg-white/20 border border-white/30 text-white text-lg px-3 py-1 rounded-lg font-black min-w-[55px] text-center">
+                    0/1
+                </div>
+            </div>
+            <button onclick="toggleHistory()" class="bg-white/10 hover:bg-white/20 p-2.5 rounded-full transition" title="Lịch sử trúng giải">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8v4l3 3"/><circle cx="12" cy="12" r="10"/></svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow flex flex-col items-center justify-center relative z-10 px-4 mt-4">
+        <h3 class="text-4xl font-black mb-2 text-yellow-400 drop-shadow-lg">LUCKY DRAW</h3>
+        <h4 class="text-lg font-bold mb-8 opacity-90 uppercase text-center">Kỷ NGUYÊN CÔNG NGHỆ - BỨT PHÁ DOANH THU</h4>
+
+        <div class="text-xl prize-banner flex items-center gap-4 text-yellow-200 font-bold">
+            <span id="prize-display-name">GIẢI ĐẶC BIỆT</span>
+        </div>
+        <div class="text-xl font-bold mb-10 text-yellow-200" id="prize-item-detail">Máy lọc nước nóng lạnh Hydro-ion kiềm Karofi KAE-S88 PROMAX</div>
+
+        <!-- Slot Machine -->
+        <div id="lights-frame" class="lights-frame mb-10">
+            <div id="lights-layer" class="lights-layer"></div>
+            <div class="lights-frame-border">
+                <div class="lights-frame-inner">
+                    <div id="slots-wrapper" class="slots-strip">
+                        <!-- 12 slots -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Spin Controls -->
+        <div class="flex flex-col items-center gap-3">
+            <button id="spin-btn" class="btn-spin" onclick="handleSpin()">QUAY SỐ</button>
+            <p id="hint-msg" class="text-[10px] opacity-70 uppercase tracking-widest font-black">NHẤN SPACE ĐỂ QUAY</p>
+        </div>
+    </main>
+
+    <div id="audio-toggle" onclick="toggleAudio()">
+        <svg id="audio-icon" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
+    </div>
+
+    <footer class="p-4 flex justify-between items-center text-[9px] opacity-40 z-10 font-bold uppercase tracking-widest">
+        <div>Tổng cộng: <span id="player-count">0</span> khách hàng</div>
+        <div id="status-msg">Sẵn sàng</div>
+        <div>KAROFI 2026</div>
+    </footer>
+
+    <!-- Winner Overlay & History Overlay (remains same logic) -->
+    <div id="winner-overlay">
+        <div class="winner-card shadow-2xl">
+            <h4 class="text-xl font-bold mb-2 text-gray-500 uppercase">CHÚC MỪNG QUÝ NHÀ PHÂN PHỐI VÀ ĐẠI LÝ</h4>
+            <div id="winner-name" class="text-4xl font-black mb-4 text-red-600 uppercase tracking-tight">---</div>
+            <p class="text-sm">Có mã số trúng thưởng</p>
+            <div id="winner-code" class="text-3xl font-black my-4 bg-[#00ADEE] text-white py-2.5 px-7 inline-block rounded-xl tracking-[0.2em] shadow-lg">
+                ---
+            </div>
+            <p class="text-lg font-bold text-[#00ADEE] mt-2" id="winner-prize-name">---</p>
+            <button class="mt-8 px-10 py-3 bg-[#00ADEE] text-white rounded-full font-bold uppercase hover:bg-[#0090c7] transition shadow-xl" onclick="closeWinner()">Đóng và Tiếp tục</button>
+        </div>
+    </div>
+
+    <div id="history-overlay">
+        <div class="history-card">
+            <div class="flex justify-between items-center mb-6">
+                <h4 class="text-xl font-black text-[#00ADEE] uppercase">Danh sách trúng giải</h4>
+                <div class="flex gap-2">
+                    <button onclick="exportCSV()" class="bg-green-600 text-white px-3 py-1.5 rounded font-bold text-xs">Xuất CSV</button>
+                    <button onclick="toggleHistory()" class="bg-gray-200 text-gray-800 px-3 py-1.5 rounded font-bold text-xs">Đóng</button>
+                </div>
+            </div>
+            <div class="overflow-x-auto">
+                <table id="history-table">
+                    <thead>
+                        <tr>
+                            <th>Thời gian</th>
+                            <th>Giải thưởng</th>
+                            <th>Họ và Tên</th>
+                            <th>Mã số</th>
+                            <th>Tỉnh/Thành Phố</th>
+                            <th>Xóa</th>
+                        </tr>
+                    </thead>
+                    <tbody id="history-body"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div id="confirm-overlay" style="z-index:200;">
+        <div class="history-card" style="max-width:360px;">
+            <p class="text-lg font-bold mb-6">Xóa người trúng giải này khỏi danh sách?</p>
+            <div class="flex justify-center gap-4">
+                <button onclick="confirmDeleteYes()" class="bg-red-600 text-white px-6 py-2.5 rounded-full font-bold uppercase">Xóa</button>
+                <button onclick="confirmDeleteNo()" class="bg-gray-200 text-gray-800 px-6 py-2.5 rounded-full font-bold uppercase">Hủy</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Logic remains identical to previous version, just updated UI parameters
+        const SHEET_ID = '1LueX3zmMFrMDAXgFylpkyGUGOS0JSJva3ZofIKjYmXY';
+        const SHEET_SOURCE_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&gid=0`;
+
+        const PRIZES = {
+            "Giải Đặc Biệt": { count: 1, item: "Máy lọc nước nóng lạnh Hydro-ion kiềm Karofi KAE-S88 PROMAX" },
+            "Giải Nhất": { count: 2, item: "Máy lọc nước nóng lạnh Karofi KAD-E58" },
+            "Giải Nhì": { count: 6, item: "Máy lọc nước RO Livotec 609" },
+            "Giải Ba": { count: 20, item: "Máy xay sinh tố Livotec LVB-821" }
+        };
+
+        const sounds = {
+            click: new Audio('https://assets.mixkit.co/active_storage/sfx/2568/2568-preview.mp3'),
+            spin: new Audio('30s-violin.mp3'),
+            win: new Audio('https://assets.mixkit.co/active_storage/sfx/2019/2019-preview.mp3'),
+            tick: new Audio('https://assets.mixkit.co/active_storage/sfx/2571/2571-preview.mp3')
+        };
+        sounds.spin.loop = true;
+        sounds.tick.volume = 0.3;
+
+        let isMuted = false;
+        let players = [];
+        let isSpinning = false;
+        let winners = JSON.parse(localStorage.getItem('livotec_winners') || '[]');
+        let currentWinner = null;
+        let slotIntervals = [];
+        let spinRampInterval = null;
+
+        const SPIN_BUILDUP_MS = 3500; // thời gian tăng tốc, khớp với setTimeout trước khi mở kết quả
+        const SPIN_START_RATE = 80 / 100; // cảm giác nhịp ~80 BPM khi bắt đầu quay
+        const SPIN_PEAK_RATE = 120 / 100; // cảm giác nhịp ~120 BPM khi cao trào
+
+        // ===== Chasing lights (khung viền đèn) =====
+        const LIGHT_DIAMETER = 15;
+        const LIGHT_PITCH = 30; // ~15px bóng + ~15px khoảng cách
+        const LIGHT_INSET = 13; // tâm bóng nằm giữa viền cam 14px
+        const LIGHT_PATH_RADIUS = 14;
+        const LIGHTS_GROUP_SIZE = 4;
+        const LIGHTS_DEFAULT_SPEED = 70;
+        const LIGHTS_START_SPEED = 180;
+        const LIGHTS_STOP_SPEED = 300;
+        const LIGHTS_RAMP_MS = 900;
+
+        let lightsBulbs = [];
+        let lightsRunning = false;
+        let lightsRampMode = 'idle'; // 'rampup' | 'steady' | 'rampdown' | 'idle'
+        let lightsRampStart = 0;
+        let lightsCurrentSpeed = LIGHTS_DEFAULT_SPEED;
+        let lightsHeadIndex = 0;
+        let lightsTimer = null;
+
+        function roundedRectPoint(s, w, h, r) {
+            const straight = w - 2 * r;
+            const arc = (Math.PI / 2) * r;
+            const vertical = h - 2 * r;
+            let d = s;
+            if (d <= straight) return { x: r + d, y: 0 };
+            d -= straight;
+            if (d <= arc) { const a = -Math.PI / 2 + (d / r); return { x: (w - r) + r * Math.cos(a), y: r + r * Math.sin(a) }; }
+            d -= arc;
+            if (d <= vertical) return { x: w, y: r + d };
+            d -= vertical;
+            if (d <= arc) { const a = 0 + (d / r); return { x: (w - r) + r * Math.cos(a), y: (h - r) + r * Math.sin(a) }; }
+            d -= arc;
+            if (d <= straight) return { x: (w - r) - d, y: h };
+            d -= straight;
+            if (d <= arc) { const a = Math.PI / 2 + (d / r); return { x: r + r * Math.cos(a), y: (h - r) + r * Math.sin(a) }; }
+            d -= arc;
+            if (d <= vertical) return { x: 0, y: (h - r) - d };
+            d -= vertical;
+            const a = Math.PI + (d / r);
+            return { x: r + r * Math.cos(a), y: r + r * Math.sin(a) };
+        }
+
+        function buildLightBulbs() {
+            const frame = document.getElementById('lights-frame');
+            const layer = document.getElementById('lights-layer');
+            if (!frame || !layer) return;
+            const w = frame.clientWidth - LIGHT_INSET * 2;
+            const h = frame.clientHeight - LIGHT_INSET * 2;
+            if (w <= 0 || h <= 0) return;
+            const r = Math.min(LIGHT_PATH_RADIUS, w / 2, h / 2);
+            const straight = 2 * (w - 2 * r) + 2 * (h - 2 * r);
+            const perimeter = straight + 2 * Math.PI * r;
+            const count = Math.max(8, Math.round(perimeter / LIGHT_PITCH));
+            const pitch = perimeter / count;
+
+            layer.innerHTML = '';
+            lightsBulbs = [];
+            for (let i = 0; i < count; i++) {
+                const p = roundedRectPoint(i * pitch, w, h, r);
+                const bulb = document.createElement('div');
+                bulb.className = 'light-bulb';
+                bulb.style.left = (p.x + LIGHT_INSET - LIGHT_DIAMETER / 2) + 'px';
+                bulb.style.top = (p.y + LIGHT_INSET - LIGHT_DIAMETER / 2) + 'px';
+                layer.appendChild(bulb);
+                lightsBulbs.push(bulb);
+            }
+            if (lightsHeadIndex >= count) lightsHeadIndex = 0;
+            renderLightsFrame();
+        }
+
+        function renderLightsFrame() {
+            const n = lightsBulbs.length;
+            if (!n) return;
+            lightsBulbs.forEach((el, i) => {
+                if (!lightsRunning) {
+                    el.classList.remove('chase-lit');
+                    el.classList.add('idle-lit');
+                    return;
+                }
+                const diff = (lightsHeadIndex - i + n) % n;
+                const isLit = diff < LIGHTS_GROUP_SIZE;
+                el.classList.toggle('chase-lit', isLit);
+                el.classList.remove('idle-lit');
+            });
+        }
+
+        function computeStepDelay() {
+            if (lightsRampMode === 'rampup') {
+                const t = Math.min((Date.now() - lightsRampStart) / LIGHTS_RAMP_MS, 1);
+                if (t >= 1) lightsRampMode = 'steady';
+                return LIGHTS_START_SPEED + (LIGHTS_DEFAULT_SPEED - LIGHTS_START_SPEED) * t;
+            }
+            if (lightsRampMode === 'rampdown') {
+                const t = Math.min((Date.now() - lightsRampStart) / LIGHTS_RAMP_MS, 1);
+                if (t >= 1) return null;
+                return lightsCurrentSpeed + (LIGHTS_STOP_SPEED - lightsCurrentSpeed) * t;
+            }
+            return lightsCurrentSpeed;
+        }
+
+        function stepLights() {
+            const delay = computeStepDelay();
+            if (delay === null) {
+                lightsRunning = false;
+                lightsRampMode = 'idle';
+                renderLightsFrame();
+                return;
+            }
+            lightsHeadIndex = (lightsHeadIndex + 1) % lightsBulbs.length;
+            renderLightsFrame();
+            lightsTimer = setTimeout(stepLights, delay);
+        }
+
+        function startLights() {
+            if (!lightsBulbs.length) buildLightBulbs();
+            if (!lightsBulbs.length) return;
+            clearTimeout(lightsTimer);
+            lightsRunning = true;
+            lightsRampMode = 'rampup';
+            lightsRampStart = Date.now();
+            renderLightsFrame();
+            lightsTimer = setTimeout(stepLights, LIGHTS_START_SPEED);
+        }
+
+        function stopLights() {
+            if (!lightsRunning || lightsRampMode === 'rampdown') return;
+            lightsRampMode = 'rampdown';
+            lightsRampStart = Date.now();
+        }
+
+        function setLightSpeed(ms) {
+            lightsCurrentSpeed = Math.max(20, ms);
+        }
+
+        function initLights() {
+            buildLightBulbs();
+            if (window.ResizeObserver) {
+                new ResizeObserver(() => buildLightBulbs()).observe(document.getElementById('lights-frame'));
+            } else {
+                window.addEventListener('resize', () => buildLightBulbs());
+            }
+        }
+
+        function toggleAudio() {
+            isMuted = !isMuted;
+            const icon = document.getElementById('audio-icon');
+            if (isMuted) {
+                icon.innerHTML = '<line x1="1" y1="1" x2="23" y2="23"/><path d="M9 9l-5 5H2v-4h2l5-5v10z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>';
+                Object.values(sounds).forEach(s => s.muted = true);
+            } else {
+                icon.innerHTML = '<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>';
+                Object.values(sounds).forEach(s => s.muted = false);
+            }
+        }
+
+        function playSound(name) {
+            if (isMuted) return;
+            const s = sounds[name];
+            if (s) { s.currentTime = 0; s.play().catch(() => {}); }
+        }
+
+        function createSlots() {
+            const wrapper = document.getElementById('slots-wrapper');
+            wrapper.innerHTML = '';
+            for (let i = 0; i < 12; i++) {
+                const box = document.createElement('div');
+                box.className = 'slot-box';
+                box.innerHTML = `<span id="digit-${i}" class="slot-digit">0</span>`;
+                wrapper.appendChild(box);
+            }
+        }
+
+        async function loadPlayers() {
+            document.getElementById('status-msg').innerText = "Đang tải...";
+            try {
+                const response = await fetch(SHEET_SOURCE_URL);
+                const data = await response.text();
+                const rows = data.split('\n').slice(1);
+                players = rows.map(row => {
+                    const cols = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+                    return {
+                        stt: cols[0]?.replace(/"/g, '').trim(),
+                        name: cols[1]?.replace(/"/g, '').trim(),
+                        code: cols[2]?.replace(/"/g, '').trim(),
+                        phone: cols[3]?.replace(/"/g, '').trim()
+                    };
+                }).filter(p => p.code && p.name);
+                document.getElementById('player-count').innerText = players.length;
+                document.getElementById('status-msg').innerText = "Sẵn sàng";
+                updatePrizeUI();
+            } catch (error) {
+                document.getElementById('status-msg').innerText = "Lỗi Sheet!";
+            }
+        }
+
+        function updatePrizeUI() {
+            playSound('click');
+            const prizeKey = document.getElementById('prize-select').value;
+            const detail = PRIZES[prizeKey];
+            const currentWinCount = winners.filter(w => w.prize === prizeKey).length;
+            const isFull = currentWinCount >= detail.count;
+
+            document.getElementById('prize-display-name').innerText = prizeKey;
+            document.getElementById('prize-item-detail').innerText = detail.item;
+
+            const badge = document.getElementById('prize-remaining-badge');
+            badge.innerText = `${currentWinCount}/${detail.count}`;
+
+            const spinBtn = document.getElementById('spin-btn');
+            const hintMsg = document.getElementById('hint-msg');
+
+            if (isFull) {
+                spinBtn.disabled = true;
+                spinBtn.innerText = "HẾT GIẢI";
+                hintMsg.innerText = "Đã đủ số lượng trúng giải";
+                hintMsg.classList.add('text-red-400');
+                badge.classList.add('bg-red-500', 'border-red-400');
+                badge.classList.remove('bg-white/20');
+            } else {
+                spinBtn.disabled = false;
+                spinBtn.innerText = "QUAY SỐ";
+                hintMsg.innerText = "NHẤN SPACE ĐỂ QUAY";
+                hintMsg.classList.remove('text-red-400');
+                badge.classList.remove('bg-red-500', 'border-red-400');
+                badge.classList.add('bg-white/20');
+            }
+        }
+
+        function handleSpin() {
+            if (isSpinning) return;
+            const prizeKey = document.getElementById('prize-select').value;
+            const availablePlayers = players.filter(p => !winners.some(w => w.code === p.code));
+            if (availablePlayers.length === 0) { alert("Hết khách hàng hợp lệ!"); return; }
+            playSound('click');
+            isSpinning = true;
+            document.getElementById('spin-btn').disabled = true;
+            document.getElementById('spin-btn').innerText = "ĐANG QUAY...";
+            currentWinner = availablePlayers[Math.floor(Math.random() * availablePlayers.length)];
+            startLights();
+            startAnimation();
+            setTimeout(() => stopAnimation(currentWinner.code), 3500);
+        }
+
+        const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        function startAnimation() {
+            slotIntervals.forEach(clearInterval);
+            slotIntervals = [];
+            playSound('spin');
+            startSpinRamp();
+            for (let i = 0; i < 12; i++) {
+                const interval = setInterval(() => {
+                    document.getElementById(`digit-${i}`).innerText = chars[Math.floor(Math.random() * chars.length)];
+                    if (i === 0) playSound('tick');
+                }, 40 + (i * 15));
+                slotIntervals.push(interval);
+            }
+        }
+
+        function startSpinRamp() {
+            clearInterval(spinRampInterval);
+            sounds.spin.playbackRate = SPIN_START_RATE;
+            const startTime = Date.now();
+            spinRampInterval = setInterval(() => {
+                const progress = Math.min((Date.now() - startTime) / SPIN_BUILDUP_MS, 1);
+                sounds.spin.playbackRate = SPIN_START_RATE + (SPIN_PEAK_RATE - SPIN_START_RATE) * progress;
+                if (progress >= 1) clearInterval(spinRampInterval);
+            }, 100);
+        }
+
+        function stopAnimation(targetCode) {
+            stopLights();
+            const code = targetCode.toString().toUpperCase().slice(0, 12);
+            const totalPad = 12 - code.length;
+            const leftPad = Math.floor(totalPad / 2);
+            const rightPad = totalPad - leftPad;
+            const displayCode = '-'.repeat(leftPad) + code + '-'.repeat(rightPad);
+            slotIntervals.forEach((interval, i) => {
+                setTimeout(() => {
+                    clearInterval(interval);
+                    document.getElementById(`digit-${i}`).innerText = displayCode[i];
+                    playSound('tick');
+                    if (i === 11) { clearInterval(spinRampInterval); sounds.spin.pause(); finalizeWinner(); }
+                }, i * 200);
+            });
+        }
+
+        function finalizeWinner() {
+            isSpinning = false;
+            const prizeKey = document.getElementById('prize-select').value;
+            const winRecord = {
+                ...currentWinner,
+                prize: prizeKey,
+                prizeItem: PRIZES[prizeKey].item,
+                timestamp: new Date().toLocaleString('vi-VN')
+            };
+            winners.push(winRecord);
+            localStorage.setItem('livotec_winners', JSON.stringify(winners));
+            showWinnerOverlay(winRecord);
+            renderHistory();
+            updatePrizeUI();
+        }
+
+        function showWinnerOverlay(winner) {
+            playSound('win');
+            document.getElementById('winner-name').innerText = winner.name;
+            document.getElementById('winner-code').innerText = winner.code;
+            document.getElementById('winner-prize-name').innerText = `${winner.prize}: ${winner.prizeItem}`;
+            document.getElementById('winner-overlay').style.display = 'flex';
+            const end = Date.now() + 5000;
+            (function frame() {
+                confetti({ particleCount: 3, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#facc15', '#00ADEE', '#ffffff'] });
+                confetti({ particleCount: 3, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#facc15', '#00ADEE', '#ffffff'] });
+                if (Date.now() < end) requestAnimationFrame(frame);
+            }());
+        }
+
+        function closeWinner() { playSound('click'); document.getElementById('winner-overlay').style.display = 'none'; }
+        function toggleHistory() { playSound('click'); const el = document.getElementById('history-overlay'); el.style.display = el.style.display === 'flex' ? 'none' : 'flex'; if (el.style.display === 'flex') renderHistory(); }
+
+        function renderHistory() {
+            const tbody = document.getElementById('history-body');
+            tbody.innerHTML = winners.length ? '' : '<tr><td colspan="6" class="text-center italic text-gray-400">Chưa có ai</td></tr>';
+            winners.slice().reverse().forEach((w, index) => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `<td>${w.timestamp}</td><td>${w.prize}</td><td>${w.name}</td><td>${w.code}</td><td>${w.phone}</td><td><button onclick="removeWinner(${winners.length - 1 - index})" class="text-red-500 font-bold">X</button></td>`;
+                tbody.appendChild(tr);
+            });
+        }
+
+        let pendingDeleteIdx = null;
+        function removeWinner(idx) {
+            playSound('click');
+            pendingDeleteIdx = idx;
+            document.getElementById('confirm-overlay').style.display = 'flex';
+        }
+        function confirmDeleteYes() {
+            playSound('click');
+            document.getElementById('confirm-overlay').style.display = 'none';
+            if (pendingDeleteIdx === null) return;
+            winners.splice(pendingDeleteIdx, 1);
+            localStorage.setItem('livotec_winners', JSON.stringify(winners));
+            pendingDeleteIdx = null;
+            renderHistory();
+            updatePrizeUI();
+        }
+        function confirmDeleteNo() {
+            playSound('click');
+            pendingDeleteIdx = null;
+            document.getElementById('confirm-overlay').style.display = 'none';
+        }
+
+        function exportCSV() {
+            if (winners.length === 0) return;
+            let csv = "﻿STT,Thời gian,Hạng giải,Tên giải,Họ và Tên,Mã dự thưởng,Tỉnh thành Phố\n";
+            winners.forEach((w, i) => { csv += `${i+1},${w.timestamp},${w.prize},${w.prizeItem},${w.name},${w.code},${w.phone}\n`; });
+            const link = document.createElement("a"); link.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8;' }));
+            link.setAttribute("download", `Karofi_Winners.csv`); link.click();
+        }
+
+        window.onload = () => { createSlots(); initLights(); loadPlayers(); };
+        window.addEventListener('keydown', (e) => { if (e.code === 'Space' && !isSpinning && document.getElementById('winner-overlay').style.display !== 'flex') handleSpin(); });
+    </script>
+</body>
+</html>
