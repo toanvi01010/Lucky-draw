@@ -151,12 +151,6 @@
         </div>
       </div>
 
-      <!-- Fullscreen button -->
-      <button id="btn-toggle-fullscreen" class="px-3 py-1.5 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 transition text-xs flex items-center gap-1.5 font-bold shadow-sm" title="Toàn màn hình sự kiện (F11)">
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"></path></svg>
-        <span class="hidden sm:inline" id="label-fullscreen">Toàn màn hình</span>
-      </button>
-
       <!-- Toggle Right Sidebar Button (Collapse / Expand) -->
       <button id="btn-toggle-sidebar" class="px-2.5 py-1.5 rounded-lg bg-neutral-800/90 hover:bg-neutral-700 text-neutral-300 hover:text-white border border-white/15 transition text-xs font-semibold flex items-center gap-1 shadow-sm" title="Thu gọn / Mở rộng danh sách">
         <svg id="icon-sidebar-collapse" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5l7 7-7 7M5 5l7 7-7 7"></path></svg>
@@ -356,7 +350,7 @@
         <svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"></path></svg>
         <span id="winner-prize-name">Giải Đặc Biệt</span>
         <span class="text-white/60">•</span>
-        <span id="winner-gift-name" class="text-white">Máy lọc nước RO để gầm Karofi KAQ-UE03</span>
+        <span id="winner-gift-name" class="text-white">Máy lọc nước Karofi KAQ-UE03</span>
       </div>
 
       <div class="my-6 py-5 px-6 rounded-2xl bg-black/50 border border-amber-500/40 shadow-inner">
@@ -779,20 +773,13 @@
     const audio = new SoundFX();
 
     const DEFAULT_PARTICIPANTS = [
-      { id: '1', name: 'Nguyễn Văn An', code: 'KH-001', note: 'Hà Nội', active: true, won: false },
+      { id: '1', name: 'Nguyễn Văn A', code: 'KH-001', note: 'Hà Nội', active: true, won: false },
       { id: '2', name: 'Trần Thị Bích', code: 'KH-002', note: 'TP.HCM', active: true, won: false },
-      { id: '3', name: 'Lê Hoàng Cường', code: 'KH-003', note: 'Đà Nẵng', active: true, won: false },
-      { id: '4', name: 'Phạm Thu Dung', code: 'KH-004', note: 'Cần Thơ', active: true, won: false },
-      { id: '5', name: 'Hoàng Minh Đức', code: 'KH-005', note: 'Hải Phòng', active: true, won: false },
-      { id: '6', name: 'Vũ Thị Hạnh', code: 'KH-006', note: 'Nha Trang', active: true, won: false },
-      { id: '7', name: 'Đặng Quốc Khánh', code: 'KH-007', note: 'Huế', active: true, won: false },
-      { id: '8', name: 'Bùi Phương Linh', code: 'KH-008', note: 'Vũng Tàu', active: true, won: false },
-      { id: '9', name: 'Ngô Thành Long', code: 'KH-009', note: 'Bình Dương', active: true, won: false },
-      { id: '10', name: 'Đỗ Mỹ Mai', code: 'KH-010', note: 'Quảng Ninh', active: true, won: false }
+      { id: '3', name: 'Đỗ Mỹ Mai', code: 'KH-010', note: 'Quảng Ninh', active: true, won: false }
     ];
 
     const DEFAULT_PRIZES = [
-      { id: 'prize-1', name: 'Giải Đặc Biệt', gift: 'Máy lọc nước RO để gầm Karofi KAQ-UE03', quantity: 2, wonCount: 0 },
+      { id: 'prize-1', name: 'Giải Đặc Biệt', gift: 'Máy lọc nước Karofi KAQ-UE03', quantity: 2, wonCount: 0 },
       { id: 'prize-2', name: 'Giải Nhất', gift: 'Máy lọc không khí Karofi KAP-M217', quantity: 2, wonCount: 0 },
       { id: 'prize-3', name: 'Giải Nhì', gift: 'Quạt điều hòa làm mát Karofi KAC-H132R', quantity: 3, wonCount: 0 },
       { id: 'prize-4', name: 'Giải Ba', gift: 'Bộ nồi inox 5 đáy cao cấp Karofi', quantity: 5, wonCount: 0 },
@@ -2142,7 +2129,8 @@
         controlPanel.classList.add('hidden');
         fullscreenBar.classList.remove('hidden');
         fullscreenBar.classList.add('flex');
-        document.getElementById('label-fullscreen').textContent = 'Thu nhỏ';
+        const fsLbl = document.getElementById('label-fullscreen');
+        if (fsLbl) fsLbl.textContent = 'Thu nhỏ';
       } else {
         stage.classList.remove('fixed', 'inset-0', 'z-40', 'bg-neutral-950', 'w-full', 'h-full');
         if (!isSidebarCollapsed) {
@@ -2150,13 +2138,16 @@
         }
         fullscreenBar.classList.add('hidden');
         fullscreenBar.classList.remove('flex');
-        document.getElementById('label-fullscreen').textContent = 'Toàn màn hình';
+        const fsLbl = document.getElementById('label-fullscreen');
+        if (fsLbl) fsLbl.textContent = 'Toàn màn hình';
       }
       drawWheel(currentAngle);
     }
 
-    document.getElementById('btn-toggle-fullscreen').addEventListener('click', toggleFullscreen);
-    document.getElementById('btn-exit-fullscreen').addEventListener('click', toggleFullscreen);
+    const btnToggleFs = document.getElementById('btn-toggle-fullscreen');
+    if (btnToggleFs) btnToggleFs.addEventListener('click', toggleFullscreen);
+    const btnExitFs = document.getElementById('btn-exit-fullscreen');
+    if (btnExitFs) btnExitFs.addEventListener('click', toggleFullscreen);
 
     btnSpin.addEventListener('click', startSpin);
     canvas.addEventListener('click', startSpin);
