@@ -32,6 +32,23 @@
   </script>
 
   <style>
+    /* Dynamic Body Background with Fallback and Custom Image Support */
+    body {
+      background-color: #031538;
+      background-size: cover;
+      background-position: center bottom;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      transition: background-image 0.3s ease;
+    }
+
+    /* Embedded High-Res Vector Background Fallback (Matches Karofi attached image) */
+    .default-karofi-bg {
+      background-image: 
+        radial-gradient(circle at 50% 100%, rgba(30, 144, 255, 0.45) 0%, rgba(10, 40, 95, 0.3) 40%, rgba(2, 10, 30, 0.8) 100%),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1920' height='1080' viewBox='0 0 1920 1080'%3E%3Cdefs%3E%3ClinearGradient id='bgGrad' x1='0%25' y1='0%25' x2='0%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%23051a42'/%3E%3Cstop offset='50%25' stop-color='%230b357b'/%3E%3Cstop offset='85%25' stop-color='%230860c4'/%3E%3Cstop offset='100%25' stop-color='%231998ff'/%3E%3C/linearGradient%3E%3ClinearGradient id='beamGrad' x1='0%25' y1='100%25' x2='0%25' y2='0%25'%3E%3Cstop offset='0%25' stop-color='%23ffffff' stop-opacity='0.9'/%3E%3Cstop offset='60%25' stop-color='%2338bdf8' stop-opacity='0.5'/%3E%3Cstop offset='100%25' stop-color='%230284c7' stop-opacity='0'/%3E%3C/linearGradient%3E%3CradialGradient id='sparkle' cx='50%25' cy='50%25' r='50%25'%3E%3Cstop offset='0%25' stop-color='%23ffffff'/%3E%3Cstop offset='40%25' stop-color='%237dd3fc' stop-opacity='0.8'/%3E%3Cstop offset='100%25' stop-color='%230284c7' stop-opacity='0'/%3E%3C/radialGradient%3E%3Cfilter id='glow'%3E%3CfeGaussianBlur stdDeviation='5' result='coloredBlur'/%3E%3CfeMerge%3E%3CfeMergeNode in='coloredBlur'/%3E%3CfeMergeNode in='SourceGraphic'/%3E%3C/feMerge%3E%3C/filter%3E%3C/defs%3E%3Crect width='1920' height='1080' fill='url(%23bgGrad)'/%3E%3Cg filter='url(%23glow)'%3E%3Cline x1='720' y1='950' x2='720' y2='680' stroke='url(%23beamGrad)' stroke-width='2'/%3E%3Cline x1='760' y1='950' x2='760' y2='620' stroke='url(%23beamGrad)' stroke-width='3'/%3E%3Cline x1='800' y1='950' x2='800' y2='650' stroke='url(%23beamGrad)' stroke-width='2'/%3E%3Cline x1='840' y1='950' x2='840' y2='590' stroke='url(%23beamGrad)' stroke-width='2.5'/%3E%3Cline x1='880' y1='950' x2='880' y2='610' stroke='url(%23beamGrad)' stroke-width='3'/%3E%3Cline x1='920' y1='950' x2='920' y2='560' stroke='url(%23beamGrad)' stroke-width='3.5'/%3E%3Cline x1='960' y1='950' x2='960' y2='580' stroke='url(%23beamGrad)' stroke-width='4'/%3E%3Cline x1='1000' y1='950' x2='1000' y2='550' stroke='url(%23beamGrad)' stroke-width='3.5'/%3E%3Cline x1='1040' y1='950' x2='1040' y2='600' stroke='url(%23beamGrad)' stroke-width='3'/%3E%3Cline x1='1080' y1='950' x2='1080' y2='630' stroke='url(%23beamGrad)' stroke-width='2.5'/%3E%3Cline x1='1120' y1='950' x2='1120' y2='670' stroke='url(%23beamGrad)' stroke-width='2'/%3E%3Cline x1='1160' y1='950' x2='1160' y2='610' stroke='url(%23beamGrad)' stroke-width='2.5'/%3E%3Cline x1='1200' y1='950' x2='1200' y2='660' stroke='url(%23beamGrad)' stroke-width='2'/%3E%3C/g%3E%3Cpath d='M-100,850 Q480,1020 960,940 T2020,700' fill='none' stroke='%2338bdf8' stroke-width='14' stroke-opacity='0.45' filter='url(%23glow)'/%3E%3Cpath d='M-50,880 Q480,1050 960,960 T2020,730' fill='none' stroke='%23ffffff' stroke-width='4' stroke-opacity='0.8' filter='url(%23glow)'/%3E%3Cpath d='M-80,680 Q520,890 1100,860 T2050,550' fill='none' stroke='%230284c7' stroke-width='18' stroke-opacity='0.35' filter='url(%23glow)'/%3E%3Ccircle cx='960' cy='580' r='6' fill='%23ffffff' filter='url(%23glow)'/%3E%3Ccircle cx='880' cy='610' r='5' fill='%23ffffff' filter='url(%23glow)'/%3E%3Ccircle cx='1040' cy='600' r='5' fill='%23ffffff' filter='url(%23glow)'/%3E%3Ccircle cx='1350' cy='820' r='24' fill='url(%23sparkle)' opacity='0.7'/%3E%3Ccircle cx='1780' cy='390' r='18' fill='url(%23sparkle)' opacity='0.75'/%3E%3C/svg%3E");
+    }
+
     /* Custom Scrollbar */
     .custom-scrollbar::-webkit-scrollbar {
       width: 6px;
@@ -65,7 +82,7 @@
   </style>
 </head>
 
-<body class="bg-gradient-to-br from-slate-950 via-slate-900 to-blue-950 text-slate-100 min-h-screen flex flex-col font-sans select-none overflow-x-hidden">
+<body class="default-karofi-bg text-slate-100 min-h-screen flex flex-col font-sans select-none overflow-x-hidden">
 
   <!-- Toast Notification -->
   <div id="toast" class="fixed top-5 left-1/2 -translate-x-1/2 z-50 bg-neutral-900/95 text-amber-300 border border-amber-500/40 px-5 py-2.5 rounded-full shadow-2xl backdrop-blur-md text-sm font-semibold flex items-center gap-2 transform -translate-y-20 opacity-0 pointer-events-none transition-all duration-300">
@@ -73,35 +90,40 @@
     <span id="toast-message">Thông báo</span>
   </div>
 
+  <!-- Hidden File Input for Background Image -->
+  <input id="input-global-bg-file" type="file" accept="image/*" class="hidden">
+
   <!-- Header Bar -->
-  <header id="main-header" class="border-b border-white/10 bg-black/40 backdrop-blur-md px-4 lg:px-6 py-2.5 flex items-center justify-between z-30 relative">
-    <!-- Brand / Title Container with anti-overflow truncate -->
-    <div class="flex items-center gap-3 min-w-0 flex-1 mr-3">
-      <!-- Karofi Brand Badge (Click to upload custom logo file directly) -->
+  <header id="main-header" class="border-b border-white/10 bg-black/45 backdrop-blur-md px-4 lg:px-6 py-2.5 flex items-center justify-between z-30 relative shadow-lg">
+    <!-- Left Spacer for Perfect Center Balancing -->
+    <div class="hidden md:flex items-center gap-2 w-52 shrink-0 pointer-events-none"></div>
+
+    <!-- Brand / Title Container (Centered) -->
+    <div class="flex items-center justify-center gap-3 min-w-0 flex-1 mx-auto">
+      <!-- Karofi Brand Badge -->
       <div id="header-logo-container" onclick="document.getElementById('input-header-logo-file').click()" class="h-10 px-3 py-1 bg-white rounded-xl flex items-center justify-center shadow-md shrink-0 border border-white/20 cursor-pointer hover:opacity-90 transition group relative" title="Bấm để tải ảnh Logo từ máy tính">
         <img id="header-logo-img" src="https://karofi.karofi.com/karofi-com/2026/03/karofi-logo-2026.png" alt="Karofi Logo" class="h-7 w-auto object-contain" onerror="handleLogoError(this);">
-        <!-- Inline Karofi Vector Logo Fallback (Active if image fails) -->
+        <!-- Inline Karofi Vector Logo Fallback -->
         <div id="header-logo-vector" class="hidden items-center gap-1.5 font-black text-sky-600 tracking-wider text-xs sm:text-sm">
           <svg class="w-5 h-5 text-sky-500 fill-current" viewBox="0 0 24 24"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
           <span>KAROFI</span>
         </div>
-        <!-- Hover hint badge -->
         <span class="absolute -bottom-6 left-1/2 -translate-x-1/2 bg-black/80 text-amber-300 text-[9px] px-1.5 py-0.5 rounded opacity-0 group-hover:opacity-100 transition whitespace-nowrap pointer-events-none">Đổi logo</span>
       </div>
       <input id="input-header-logo-file" type="file" accept="image/*" class="hidden">
 
-      <div class="min-w-0 flex flex-col justify-center">
+      <div class="min-w-0 flex flex-col justify-center text-left">
         <h1 id="header-title" class="text-xs sm:text-sm lg:text-base font-black tracking-wider bg-gradient-to-r from-amber-200 via-yellow-100 to-amber-400 bg-clip-text text-transparent truncate">
           HỘI NGHỊ KHÁCH HÀNG CHIẾN LƯỢC 2026
         </h1>
-        <p id="header-subtitle" class="text-[11px] sm:text-xs text-amber-300/90 font-bold tracking-wide truncate">
+        <p id="header-subtitle" class="text-[11px] sm:text-xs text-amber-300 font-bold tracking-wide truncate">
           CHƯƠNG TRÌNH LUCKY DRAW
         </p>
       </div>
     </div>
 
-    <!-- Header Actions: Single Dropdown + Fullscreen (No Clutter, Never Overlaps) -->
-    <div class="flex items-center gap-2 shrink-0">
+    <!-- Header Actions: ONLY Dropdown + Toggle Sidebar (NO 'Toàn màn hình' button) -->
+    <div class="flex items-center justify-end gap-2 shrink-0 md:w-52">
       
       <!-- Collapsible Settings Dropdown -->
       <div class="relative">
@@ -112,7 +134,7 @@
         </button>
 
         <!-- Dropdown Menu Box -->
-        <div id="menu-dropdown-settings" class="hidden absolute right-0 mt-2 w-56 rounded-2xl bg-neutral-900/95 border border-white/15 backdrop-blur-xl shadow-2xl py-2 z-50 text-xs">
+        <div id="menu-dropdown-settings" class="hidden absolute right-0 mt-2 w-60 rounded-2xl bg-neutral-900/95 border border-white/15 backdrop-blur-xl shadow-2xl py-2 z-50 text-xs">
           <!-- Item: Prize settings -->
           <button id="btn-open-prizes" class="w-full text-left px-4 py-2 hover:bg-white/10 flex items-center gap-2.5 text-amber-300 font-semibold transition">
             <svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"></path></svg>
@@ -135,10 +157,10 @@
             <span>Cài đặt vòng quay (LED, Giây)</span>
           </button>
 
-          <!-- Item: Branding & Title -->
+          <!-- Item: Branding & Background -->
           <button id="btn-open-branding" class="w-full text-left px-4 py-2 hover:bg-white/10 flex items-center gap-2.5 text-neutral-200 transition">
-            <svg class="w-4 h-4 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4 4 4 0 014-4c.48 0 .93.08 1.35.24A4.004 4.004 0 0112 11a4.004 4.004 0 013.65 2.24A4.004 4.004 0 0117 13a4 4 0 014 4 4 4 0 01-4 4H7z"></path></svg>
-            <span>Tùy chỉnh Thương hiệu & Logo</span>
+            <svg class="w-4 h-4 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+            <span>Đổi hình nền & Thương hiệu</span>
           </button>
 
           <div class="border-t border-white/10 my-1"></div>
@@ -151,7 +173,7 @@
         </div>
       </div>
 
-      <!-- Toggle Right Sidebar Button (Collapse / Expand) -->
+      <!-- Toggle Right Sidebar Button -->
       <button id="btn-toggle-sidebar" class="px-2.5 py-1.5 rounded-lg bg-neutral-800/90 hover:bg-neutral-700 text-neutral-300 hover:text-white border border-white/15 transition text-xs font-semibold flex items-center gap-1 shadow-sm" title="Thu gọn / Mở rộng danh sách">
         <svg id="icon-sidebar-collapse" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5l7 7-7 7M5 5l7 7-7 7"></path></svg>
         <svg id="icon-sidebar-expand" class="w-4 h-4 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 19l-7-7 7-7m8 14l-7-7 7-7"></path></svg>
@@ -163,38 +185,9 @@
   <!-- Main Workspace -->
   <div class="flex-1 flex flex-col lg:flex-row overflow-hidden relative">
 
-    <!-- LEFT AREA: WHEEL & STAGE (Auto-expands to 100% when sidebar is collapsed) -->
+    <!-- LEFT AREA: WHEEL & STAGE -->
     <main id="wheel-stage" class="flex-1 flex flex-col items-center justify-center p-3 sm:p-6 lg:p-8 relative transition-all duration-300">
       
-      <!-- Fullscreen Exit Overlay Bar (Only shown in fullscreen) -->
-      <div id="fullscreen-bar" class="hidden absolute top-4 left-6 right-6 justify-between items-center z-50">
-        <div class="flex items-center gap-3 bg-black/60 backdrop-blur-md px-4 py-2 rounded-xl border border-white/10">
-          <div class="h-9 px-3 py-1 bg-white rounded-lg flex items-center justify-center shadow shrink-0">
-            <img id="fs-logo-img" src="https://karofi.karofi.com/karofi-com/2026/03/karofi-logo-2026.png" alt="Karofi Logo" class="h-6 w-auto object-contain" onerror="handleLogoError(this);">
-            <div id="fs-logo-vector" class="hidden items-center gap-1.5 font-black text-sky-600 text-xs">
-              <svg class="w-4 h-4 text-sky-500 fill-current" viewBox="0 0 24 24"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
-              <span>KAROFI</span>
-            </div>
-          </div>
-          <div>
-            <h2 id="fs-title" class="text-base sm:text-lg font-black text-amber-300">HỘI NGHỊ KHÁCH HÀNG CHIẾN LƯỢC 2026</h2>
-            <p id="fs-subtitle" class="text-xs text-neutral-400">CHƯƠNG TRÌNH LUCKY DRAW</p>
-          </div>
-        </div>
-        <div class="flex items-center gap-3">
-          <div class="hidden md:flex items-center gap-2 bg-neutral-900/80 border border-amber-400/40 px-3 py-1.5 rounded-xl shadow-lg">
-            <span class="text-xs text-neutral-300">Đang quay:</span>
-            <select id="fs-select-active-prize" class="bg-black/60 text-amber-300 text-xs font-bold rounded-lg border border-amber-500/50 px-2 py-1 outline-none"></select>
-          </div>
-          <span class="text-xs text-neutral-400 bg-white/5 px-3 py-1.5 rounded-lg border border-white/10 hidden sm:inline">
-            Nhấn <kbd class="text-amber-400 font-bold">SPACE</kbd> để Quay | <kbd class="text-amber-400 font-bold">ESC</kbd> thoát
-          </span>
-          <button id="btn-exit-fullscreen" class="bg-red-500/20 hover:bg-red-500/30 text-red-300 p-2 rounded-xl border border-red-500/30">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-          </button>
-        </div>
-      </div>
-
       <!-- Canvas Wheel Viewport (Always Centered and Fully Visible) -->
       <div class="relative flex items-center justify-center max-w-full max-h-[72vh] aspect-square">
         <canvas id="wheel-canvas" width="640" height="640" class="w-full max-w-[340px] xs:max-w-[390px] sm:max-w-[480px] md:max-w-[540px] lg:max-w-[590px] xl:max-w-[620px] h-auto drop-shadow-[0_0_35px_rgba(0,0,0,0.85)] cursor-pointer select-none"></canvas>
@@ -206,26 +199,10 @@
           <span id="spin-text">QUAY</span>
         </button>
       </div>
-
-      <!-- Bottom Stage Status Bar (Hidden) -->
-      <div id="bottom-status-bar" class="hidden mt-4 flex-wrap items-center justify-center gap-3 sm:gap-6 text-xs text-neutral-300 bg-black/40 backdrop-blur-md px-4 py-2 rounded-2xl border border-white/10">
-        <div class="flex items-center gap-1.5">
-          <svg class="w-4 h-4 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
-          <span>Đang trên vòng quay: <b id="stat-active-count" class="text-white font-semibold">10</b></span>
-        </div>
-        <div class="flex items-center gap-1.5">
-          <svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"></path></svg>
-          <span>Đã trúng thưởng: <b id="stat-won-count" class="text-amber-400 font-semibold">0</b></span>
-        </div>
-        <div class="hidden sm:flex items-center gap-1.5 text-neutral-400">
-          <span>Phím tắt:</span>
-          <kbd class="px-1.5 py-0.5 bg-white/10 rounded text-[10px] text-amber-300">Space</kbd>
-        </div>
-      </div>
     </main>
 
     <!-- RIGHT AREA: CONTROL PANEL (Collapsible Sidebar) -->
-    <aside id="control-panel" class="w-full lg:w-[340px] xl:w-[370px] shrink-0 border-t lg:border-t-0 lg:border-l border-white/10 bg-neutral-900/95 backdrop-blur-xl flex flex-col h-[50vh] lg:h-auto overflow-hidden">
+    <aside id="control-panel" class="w-full lg:w-[340px] xl:w-[370px] shrink-0 border-t lg:border-t-0 lg:border-l border-white/10 bg-neutral-900/95 backdrop-blur-xl flex flex-col h-[50vh] lg:h-auto overflow-hidden shadow-2xl">
       
       <!-- Panel Header Tabs + Collapse Quick Button -->
       <div class="flex items-center border-b border-white/10 bg-black/20">
@@ -238,7 +215,6 @@
           <span id="tab-title-results">KẾT QUẢ (0)</span>
         </button>
 
-        <!-- Inline collapse button inside sidebar -->
         <button id="btn-close-sidebar-inline" class="p-2.5 text-neutral-400 hover:text-white hover:bg-white/10 transition border-l border-white/10" title="Thu gọn danh sách">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5l7 7-7 7M5 5l7 7-7 7"></path></svg>
         </button>
@@ -246,7 +222,6 @@
 
       <!-- Tab Content: Participants -->
       <div id="content-items" class="flex-1 flex flex-col overflow-hidden p-3 gap-2">
-        <!-- Quick Add Form -->
         <form id="form-add-item" class="flex gap-1.5">
           <input id="input-new-name" type="text" placeholder="Thêm tên mới rồi Enter..." class="flex-1 bg-black/40 border border-white/15 rounded-lg px-3 py-1.5 text-xs text-white placeholder-neutral-500 focus:outline-none focus:border-amber-400">
           <button type="submit" class="bg-amber-500 hover:bg-amber-600 text-black px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1 transition shadow">
@@ -255,10 +230,8 @@
           </button>
         </form>
 
-        <!-- Search filter input -->
         <input id="input-search" type="text" placeholder="🔍 Lọc danh sách..." class="w-full bg-black/20 border border-white/10 rounded-lg px-3 py-1 text-xs text-neutral-200 placeholder-neutral-500 focus:outline-none focus:border-white/30">
 
-        <!-- Action Tools 1: Shuffle, Sort, Quick Import -->
         <div class="grid grid-cols-3 gap-1.5 text-[11px]">
           <button id="btn-shuffle" class="bg-white/5 hover:bg-white/10 border border-white/10 py-1.5 rounded-md text-neutral-300 flex items-center justify-center gap-1 transition" title="Xáo trộn thứ tự">
             <svg class="w-3 h-3 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path></svg>
@@ -274,7 +247,6 @@
           </button>
         </div>
 
-        <!-- Action Tools 2: Excel Import & Template -->
         <div class="grid grid-cols-2 gap-1.5 text-[11px]">
           <button id="btn-open-excel-modal" class="bg-emerald-600/20 hover:bg-emerald-600/30 border border-emerald-500/40 text-emerald-300 py-1.5 rounded-md font-semibold flex items-center justify-center gap-1 transition">
             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
@@ -286,12 +258,8 @@
           </button>
         </div>
 
-        <!-- Participants List Container -->
-        <div id="participants-list" class="flex-1 overflow-y-auto space-y-1.5 pr-1 mt-1 custom-scrollbar">
-          <!-- Dynamically populated via JavaScript -->
-        </div>
+        <div id="participants-list" class="flex-1 overflow-y-auto space-y-1.5 pr-1 mt-1 custom-scrollbar"></div>
 
-        <!-- Footer Actions -->
         <div class="pt-2 border-t border-white/10 flex items-center justify-between text-xs text-neutral-400">
           <button id="btn-restore-won" class="hover:text-amber-300 text-[11px] underline flex items-center gap-1">
             <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
@@ -321,10 +289,7 @@
           </div>
         </div>
 
-        <!-- Results List -->
-        <div id="results-list" class="flex-1 overflow-y-auto space-y-1.5 pr-1 mt-1 custom-scrollbar">
-          <!-- Dynamically populated via JS -->
-        </div>
+        <div id="results-list" class="flex-1 overflow-y-auto space-y-1.5 pr-1 mt-1 custom-scrollbar"></div>
 
         <div class="pt-2 border-t border-white/10 flex justify-end">
           <button id="btn-clear-results" class="text-[11px] text-neutral-400 hover:text-rose-400 underline">
@@ -556,13 +521,13 @@
     </div>
   </div>
 
-  <!-- MODAL: BRANDING -->
+  <!-- MODAL: BRANDING & BACKGROUND -->
   <div id="modal-branding" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/80 backdrop-blur-md">
     <div class="bg-neutral-900 border border-white/20 rounded-2xl p-6 max-w-lg w-full shadow-2xl space-y-4">
       <div class="flex items-center justify-between pb-3 border-b border-white/10">
         <h3 class="text-base font-bold text-white flex items-center gap-2">
           <svg class="w-5 h-5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4 4 4 0 014-4c.48 0 .93.08 1.35.24A4.004 4.004 0 0112 11a4.004 4.004 0 013.65 2.24A4.004 4.004 0 0117 13a4 4 0 014 4 4 4 0 01-4 4H7z"></path></svg>
-          <span>Tùy chỉnh thương hiệu & giao diện</span>
+          <span>Tùy chỉnh thương hiệu & hình nền</span>
         </h3>
         <button id="btn-close-branding" class="text-neutral-400 hover:text-white">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
@@ -581,6 +546,20 @@
         <div>
           <label class="text-neutral-300 font-semibold block mb-1">Đường dẫn ảnh Logo thương hiệu:</label>
           <input id="branding-input-logo" type="text" placeholder="https://..." class="w-full bg-black/50 border border-white/15 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-amber-400 text-xs font-mono">
+        </div>
+
+        <!-- Background Image Selector -->
+        <div>
+          <label class="text-neutral-300 font-semibold block mb-1">Hình nền sân khấu (Background):</label>
+          <div class="flex gap-2">
+            <input id="branding-input-bg" type="text" placeholder="background-karofi.jpg hoặc link https://..." class="flex-1 bg-black/50 border border-white/15 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-amber-400 text-xs font-mono">
+            <button type="button" onclick="document.getElementById('input-bg-file').click()" class="px-3 py-2 bg-neutral-800 hover:bg-neutral-700 text-neutral-200 border border-white/20 rounded-lg text-xs font-semibold shrink-0 flex items-center gap-1.5 transition">
+              <svg class="w-3.5 h-3.5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+              <span>Chọn ảnh từ máy</span>
+            </button>
+            <input id="input-bg-file" type="file" accept="image/*" class="hidden">
+          </div>
+          <p class="text-[10px] text-neutral-400 mt-1">Bấm <b>Chọn ảnh từ máy</b> để chọn trực tiếp file <code class="text-amber-300 font-mono">background-karofi.jpg</code> lưu trong máy tính của bạn.</p>
         </div>
       </div>
 
@@ -606,6 +585,13 @@
           <label class="text-xs text-neutral-400 block mb-1">Mã định danh / SĐT</label>
           <input id="edit-input-code" type="text" class="w-full bg-black/50 border border-white/15 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-amber-400">
         </div>
+        <label class="flex items-center gap-2.5 p-2 rounded-xl bg-purple-950/30 border border-purple-500/30 cursor-pointer text-xs">
+          <input id="edit-input-blacklist" type="checkbox" class="rounded border-neutral-700 text-purple-500 focus:ring-0">
+          <div>
+            <span class="text-purple-300 font-bold block">Black list (Chặn trúng giải)</span>
+            <span class="text-[10px] text-neutral-400">Người này vẫn hiển thị trên vòng quay nhưng không trúng</span>
+          </div>
+        </label>
       </div>
       <div class="flex justify-end gap-2 mt-6">
         <button id="btn-cancel-edit" class="px-4 py-2 rounded-lg bg-white/10 text-neutral-300 text-xs hover:bg-white/20">Hủy</button>
@@ -627,7 +613,6 @@
         </button>
       </div>
 
-      <!-- Add New Prize Form -->
       <form id="form-add-prize" class="mt-4 p-3.5 bg-black/40 border border-white/10 rounded-2xl flex flex-col sm:flex-row gap-2.5">
         <div class="flex-1">
           <label class="block text-[10px] text-neutral-400 font-semibold mb-1">Tên giải (VD: Giải Nhất, Giải Đặc Biệt)</label>
@@ -649,15 +634,12 @@
         </div>
       </form>
 
-      <!-- Prize List Container -->
       <div class="mt-4 flex-1 overflow-y-auto space-y-2 pr-1 custom-scrollbar">
         <div class="flex items-center justify-between text-xs text-neutral-400 font-semibold px-1">
           <span>Danh sách giải thưởng (<span id="prizes-total-count">0</span> giải)</span>
           <button id="btn-reset-prizes-count" class="hover:text-amber-400 text-[11px] underline">Đặt lại lượt trúng về 0</button>
         </div>
-        <div id="prizes-list-container" class="space-y-2 mt-2">
-          <!-- Dynamically populated via JavaScript -->
-        </div>
+        <div id="prizes-list-container" class="space-y-2 mt-2"></div>
       </div>
 
       <div class="pt-3 border-t border-white/10 flex justify-end gap-2.5 mt-2">
@@ -693,11 +675,9 @@
     class SoundFX {
       constructor() {
         this.ctx = null;
-        // Spin soundtrack: 30s-violin.mp3
         this.spinAudio = new Audio('https://raw.githubusercontent.com/toanvi01010/Lucky-draw/main/30s-violin.mp3');
         this.spinAudio.preload = 'auto';
         this.spinAudio.loop = true;
-        // Fallback in case raw.githubusercontent is blocked
         this.spinAudio.onerror = () => {
           if (!this.spinAudio.src.includes('/raw/main/')) {
             this.spinAudio.src = 'https://github.com/toanvi01010/Lucky-draw/raw/main/30s-violin.mp3';
@@ -719,9 +699,7 @@
           this.spinAudio.currentTime = 0;
           const playPromise = this.spinAudio.play();
           if (playPromise !== undefined) {
-            playPromise.catch(() => {
-              // Autoplay policy prevented playback until user interaction
-            });
+            playPromise.catch(() => {});
           }
         } catch (e) {}
       }
@@ -752,7 +730,7 @@
         try {
           this.init();
           if (!this.ctx) return;
-          const notes = [523.25, 659.25, 783.99, 1046.50, 1318.51, 1567.98]; // C5 to G6
+          const notes = [523.25, 659.25, 783.99, 1046.50, 1318.51, 1567.98];
           notes.forEach((freq, idx) => {
             const osc = this.ctx.createOscillator();
             const gain = this.ctx.createGain();
@@ -773,9 +751,16 @@
     const audio = new SoundFX();
 
     const DEFAULT_PARTICIPANTS = [
-      { id: '1', name: 'Nguyễn Văn A', code: 'KH-001', note: 'Hà Nội', active: true, won: false },
-      { id: '2', name: 'Trần Thị Bích', code: 'KH-002', note: 'TP.HCM', active: true, won: false },
-      { id: '3', name: 'Đỗ Mỹ Mai', code: 'KH-010', note: 'Quảng Ninh', active: true, won: false }
+      { id: '1', name: 'Đại lý Minh Hương', code: 'KH-001', note: 'Hà Nội', active: true, won: false, blacklisted: false },
+      { id: '2', name: 'Đại lý Cửa hàng Mạnh...', code: 'KH-002', note: 'TP.HCM', active: true, won: false, blacklisted: false },
+      { id: '3', name: 'Đại lý Điện máy Nhật...', code: 'KH-003', note: 'Hải Phòng', active: true, won: false, blacklisted: false },
+      { id: '4', name: 'Đại lý Điện máy Minh...', code: 'KH-004', note: 'Đà Nẵng', active: true, won: false, blacklisted: false },
+      { id: '5', name: 'Đại lý Hùng Hạnh', code: 'KH-005', note: 'Cần Thơ', active: true, won: false, blacklisted: false },
+      { id: '6', name: 'Đại lý Hải Hậu', code: 'KH-006', note: 'Nam Định', active: true, won: false, blacklisted: false },
+      { id: '7', name: 'Đại lý Ngọc Thế', code: 'KH-007', note: 'Quảng Ninh', active: true, won: false, blacklisted: false },
+      { id: '8', name: 'Đại lý Phú Quý', code: 'KH-008', note: 'Nghệ An', active: true, won: false, blacklisted: false },
+      { id: '9', name: 'Đại lý Thuận Phát', code: 'KH-009', note: 'Bình Dương', active: true, won: false, blacklisted: false },
+      { id: '10', name: 'Đại lý Vĩnh Thị', code: 'KH-010', note: 'Thanh Hóa', active: true, won: false, blacklisted: false }
     ];
 
     const DEFAULT_PRIZES = [
@@ -798,49 +783,61 @@
     const DEFAULT_BRANDING = {
       title: 'HỘI NGHỊ KHÁCH HÀNG CHIẾN LƯỢC 2026',
       subtitle: 'CHƯƠNG TRÌNH LUCKY DRAW',
-      logoUrl: 'https://karofi.karofi.com/karofi-com/2026/03/karofi-logo-2026.png'
+      logoUrl: 'https://karofi.karofi.com/karofi-com/2026/03/karofi-logo-2026.png',
+      bgUrl: 'background-karofi.jpg'
     };
 
     const PALETTE = ['#EF4444', '#3B82F6', '#10B981', '#F59E0B', '#8B5CF6', '#EC4899', '#06B6D4', '#F97316'];
-    // Error handler for image logo
+
     window.handleLogoError = function(imgElement) {
       if (!imgElement) return;
-      // Try alt URL first (remove duplicate karofi. subdomain)
       if (imgElement.src.includes('karofi.karofi.com')) {
         imgElement.src = 'https://karofi.com/karofi-com/2026/03/karofi-logo-2026.png';
         return;
       }
-      // If still fails, show vector badge seamlessly
       imgElement.style.display = 'none';
       const vectorHeader = document.getElementById('header-logo-vector');
-      const vectorFs = document.getElementById('fs-logo-vector');
       if (vectorHeader) vectorHeader.classList.remove('hidden'), vectorHeader.classList.add('flex');
-      if (vectorFs) vectorFs.classList.remove('hidden'), vectorFs.classList.add('flex');
     };
+
+    let branding = { ...DEFAULT_BRANDING };
+    try {
+      const b = localStorage.getItem('LUCKY_WHEEL_BRANDING');
+      if (b) {
+        const parsed = JSON.parse(b);
+        if (parsed.bgUrl && parsed.bgUrl.includes('sudospaces.com')) {
+          parsed.bgUrl = DEFAULT_BRANDING.bgUrl;
+        }
+        branding = { ...DEFAULT_BRANDING, ...parsed };
+      }
+    } catch (e) {}
+
+    function applyBackground(url) {
+      if (url && (url.startsWith('data:image') || url.startsWith('http') || url.includes('.jpg') || url.includes('.png'))) {
+        document.body.classList.remove('default-karofi-bg');
+        document.body.style.backgroundImage = `radial-gradient(circle at 50% 60%, rgba(3, 20, 60, 0.25) 0%, rgba(2, 6, 23, 0.6) 100%), url('${url}'), url('background-karofi.jpg')`;
+      } else {
+        document.body.style.backgroundImage = '';
+        document.body.classList.add('default-karofi-bg');
+      }
+    }
 
     function renderBranding() {
       document.title = `${branding.title} - ${branding.subtitle}`;
       document.getElementById('header-title').textContent = branding.title;
       document.getElementById('header-subtitle').textContent = branding.subtitle;
-      document.getElementById('fs-title').textContent = branding.title;
-      document.getElementById('fs-subtitle').textContent = branding.subtitle;
+
+      applyBackground(branding.bgUrl);
 
       const logoUrl = branding.logoUrl || DEFAULT_BRANDING.logoUrl;
       const headerLogo = document.getElementById('header-logo-img');
-      const fsLogo = document.getElementById('fs-logo-img');
       const vectorHeader = document.getElementById('header-logo-vector');
-      const vectorFs = document.getElementById('fs-logo-vector');
 
       if (headerLogo) {
         headerLogo.style.display = 'block';
         headerLogo.src = logoUrl;
       }
-      if (fsLogo) {
-        fsLogo.style.display = 'block';
-        fsLogo.src = logoUrl;
-      }
       if (vectorHeader) vectorHeader.classList.add('hidden');
-      if (vectorFs) vectorFs.classList.add('hidden');
     }
 
     let participants = [];
@@ -875,21 +872,7 @@
       if (s) settings = { ...DEFAULT_SETTINGS, ...JSON.parse(s) };
     } catch (e) {}
 
-    let branding = { ...DEFAULT_BRANDING };
-    try {
-      const b = localStorage.getItem('LUCKY_WHEEL_BRANDING');
-      if (b) {
-        const parsed = JSON.parse(b);
-        // Automatically sync subtitle to the requested "CHƯƠNG TRÌNH LUCKY DRAW"
-        if (parsed.subtitle === 'VÒNG QUAY MAY MẮN & BỐC THĂM TRÚNG THƯỞNG' || !parsed.subtitle) {
-          parsed.subtitle = DEFAULT_BRANDING.subtitle;
-        }
-        branding = { ...DEFAULT_BRANDING, ...parsed };
-      }
-    } catch (e) {}
-
     let isSpinning = false;
-    let isFullscreen = false;
     let isSidebarCollapsed = false;
     let currentAngle = 0;
     let needleWobble = 0;
@@ -905,7 +888,6 @@
     const toastEl = document.getElementById('toast');
     const toastMsgEl = document.getElementById('toast-message');
 
-    // Persistence Helpers
     function saveState() {
       localStorage.setItem('LUCKY_WHEEL_PARTICIPANTS', JSON.stringify(participants));
       localStorage.setItem('LUCKY_WHEEL_RESULTS', JSON.stringify(results));
@@ -929,7 +911,6 @@
       return participants.filter(p => p.active && (!settings.removeWon || !p.won));
     }
 
-    // Cryptographically Secure Random Choice
     function getCryptoRandom() {
       if (window.crypto && window.crypto.getRandomValues) {
         const buf = new Uint32Array(1);
@@ -975,7 +956,6 @@
 
       const arcSize = (2 * Math.PI) / count;
 
-      // Draw segments
       ctx.save();
       ctx.translate(centerX, centerY);
       ctx.rotate(angle);
@@ -992,12 +972,10 @@
         ctx.fillStyle = color;
         ctx.fill();
 
-        // Divider
         ctx.lineWidth = count > 80 ? 1 : 2.5;
         ctx.strokeStyle = 'rgba(255, 255, 255, 0.4)';
         ctx.stroke();
 
-        // Inner wedge radial shade
         const grad = ctx.createRadialGradient(0, 0, radius * 0.15, 0, 0, radius);
         grad.addColorStop(0, 'rgba(255, 255, 255, 0.22)');
         grad.addColorStop(0.7, 'rgba(0, 0, 0, 0.02)');
@@ -1005,7 +983,6 @@
         ctx.fillStyle = grad;
         ctx.fill();
 
-        // Name text
         ctx.save();
         ctx.rotate(segStart + arcSize / 2);
         ctx.textAlign = 'right';
@@ -1035,7 +1012,6 @@
       }
       ctx.restore();
 
-      // Outer Gold Rim
       ctx.save();
       ctx.beginPath();
       ctx.arc(centerX, centerY, radius + 10, 0, 2 * Math.PI);
@@ -1055,7 +1031,6 @@
       ctx.strokeStyle = 'rgba(0, 0, 0, 0.6)';
       ctx.stroke();
 
-      // Chasing LEDs
       if (settings.ledEnabled) {
         const ledCount = 28;
         const ledRadius = radius + 10;
@@ -1080,7 +1055,6 @@
         ctx.shadowBlur = 0;
       }
 
-      // Center Hub
       ctx.beginPath();
       ctx.arc(centerX, centerY, 52, 0, 2 * Math.PI);
       const centerGrad = ctx.createRadialGradient(centerX, centerY, 5, centerX, centerY, 52);
@@ -1093,7 +1067,6 @@
       ctx.fill();
       ctx.shadowBlur = 0;
 
-      // Pointer / Needle at 12 o'clock
       ctx.save();
       ctx.translate(centerX, centerY - radius - 6);
       ctx.rotate(needleWobble);
@@ -1129,6 +1102,13 @@
         return;
       }
 
+      // Lọc danh sách ứng viên hợp lệ (loại bỏ những người nằm trong Black list)
+      const eligibleWinners = activeList.filter(p => !p.blacklisted);
+      if (eligibleWinners.length === 0) {
+        showToast('⚠️ Không có người hợp lệ để trúng (Tất cả người trên vòng quay đang thuộc Black list)!');
+        return;
+      }
+
       const currentPrize = prizes.find(p => p.id === activePrizeId);
       if (currentPrize && currentPrize.wonCount >= currentPrize.quantity) {
         showToast(`⚠️ ${currentPrize.name} đã đủ số lượng (${currentPrize.wonCount}/${currentPrize.quantity})! Vui lòng chọn giải khác.`);
@@ -1140,16 +1120,18 @@
       document.getElementById('spin-text').textContent = '...';
       document.getElementById('spin-icon').classList.add('animate-spin');
 
-      // Start playing 30s-violin music when spin begins
       if (settings.soundEnabled) {
         audio.playSpinMusic();
       }
 
-      const total = activeList.length;
+      // Chọn người chiến thắng thực tế từ danh sách hợp lệ
       const cryptoRand = getCryptoRandom();
-      const winnerIndex = Math.floor(cryptoRand * total);
+      const chosenCandidate = eligibleWinners[Math.floor(cryptoRand * eligibleWinners.length)];
+      // Tìm vị trí của người trúng trên vòng quay hiện tại
+      const winnerIndex = activeList.findIndex(p => p.id === chosenCandidate.id);
       const selectedWinner = activeList[winnerIndex];
 
+      const total = activeList.length;
       const arc = (2 * Math.PI) / total;
       const segmentCenter = (winnerIndex + 0.5) * arc;
       const targetPointerAngle = (3 * Math.PI) / 2;
@@ -1207,9 +1189,7 @@
     }
 
     function onSpinCompleted(winner) {
-      // Stop the spinning music immediately
       audio.stopSpinMusic();
-
       if (settings.winSoundEnabled) audio.playVictory();
 
       if (settings.confettiEnabled && window.confetti) {
@@ -1265,12 +1245,6 @@
       });
 
       document.getElementById('tab-title-items').textContent = `MỤC (${participants.length})`;
-      const floatingEl = document.getElementById('floating-count');
-      if (floatingEl) floatingEl.textContent = participants.length;
-
-      const activeList = getActiveParticipants();
-      const statActiveEl = document.getElementById('stat-active-count');
-      if (statActiveEl) statActiveEl.textContent = activeList.length;
 
       if (filtered.length === 0) {
         participantsListEl.innerHTML = `<div class="text-center py-8 text-neutral-500 text-xs">Không tìm thấy người tham gia nào.</div>`;
@@ -1294,9 +1268,13 @@
                 <span class="font-medium text-white">${p.name}</span>
                 ${p.code ? `<span class="text-[10px] text-amber-300/80 ml-1.5 font-mono">[${p.code}]</span>` : ''}
                 ${p.won ? `<span class="ml-1.5 text-[9px] bg-amber-500/20 text-amber-300 px-1 py-0.2 rounded border border-amber-500/30">Đã trúng</span>` : ''}
+                ${p.blacklisted ? `<span class="ml-1.5 text-[9px] bg-purple-500/25 text-purple-300 px-1.5 py-0.5 rounded border border-purple-500/40 font-bold" title="Người này nằm trong Black list (không thể trúng)">🛡️ Blacklist</span>` : ''}
               </div>
             </div>
             <div class="flex items-center gap-1 shrink-0">
+              <button onclick="toggleBlacklist('${p.id}')" class="p-1 transition ${p.blacklisted ? 'text-purple-400 hover:text-purple-300' : 'text-neutral-500 hover:text-purple-400'}" title="${p.blacklisted ? 'Bỏ khỏi Black list' : 'Thêm vào Black list (Chặn trúng giải)'}">
+                <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 2.18l7 3.12v4.7c0 4.54-3.08 8.79-7 9.9-3.92-1.11-7-5.36-7-9.9V6.3l7-3.12zM12 7a4 4 0 00-4 4c0 1.05.4 2.01 1.06 2.73l5.67-5.67A3.96 3.96 0 0012 7zm2.94 1.27l-5.67 5.67c.72.66 1.68 1.06 2.73 1.06a4 4 0 004-4c0-1.05-.4-2.01-1.06-2.73z"/></svg>
+              </button>
               <button onclick="openEditParticipant('${p.id}')" class="p-1 hover:text-amber-400 text-neutral-400 transition" title="Sửa tên">
                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
               </button>
@@ -1312,8 +1290,6 @@
     function renderResults() {
       document.getElementById('tab-title-results').textContent = `KẾT QUẢ (${results.length})`;
       document.getElementById('results-count-badge').textContent = `Lịch sử trúng thưởng (${results.length})`;
-      const statWonEl = document.getElementById('stat-won-count');
-      if (statWonEl) statWonEl.textContent = results.length;
 
       if (results.length === 0) {
         resultsListEl.innerHTML = `<div class="text-center py-12 text-neutral-500 text-xs">Chưa có ai trúng thưởng. Hãy bấm "QUAY" để bắt đầu!</div>`;
@@ -1351,16 +1327,6 @@
       if (!prizes.find(p => p.id === activePrizeId) && prizes.length > 0) {
         activePrizeId = prizes[0].id;
       }
-
-      const optionsHtml = prizes.map(p => {
-        const remaining = p.quantity - (p.wonCount || 0);
-        return `<option value="${p.id}" ${p.id === activePrizeId ? 'selected' : ''}>
-          ${p.name} (Còn ${remaining}/${p.quantity})
-        </option>`;
-      }).join('');
-
-      const fsSelect = document.getElementById('fs-select-active-prize');
-      if (fsSelect) fsSelect.innerHTML = optionsHtml;
 
       document.getElementById('prizes-total-count').textContent = prizes.length;
       const listContainer = document.getElementById('prizes-list-container');
@@ -1485,7 +1451,6 @@
       showToast('Đã xóa 1 kết quả');
     };
 
-    // Quick add single item
     document.getElementById('form-add-item').addEventListener('submit', (e) => {
       e.preventDefault();
       const input = document.getElementById('input-new-name');
@@ -1504,7 +1469,6 @@
       showToast(`Đã thêm "${name}"`);
     });
 
-    // Shuffle & Sort
     document.getElementById('btn-shuffle').addEventListener('click', () => {
       for (let i = participants.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -1538,7 +1502,6 @@
 
     document.getElementById('input-search').addEventListener('input', renderParticipants);
 
-    // Template download
     document.getElementById('btn-download-template').addEventListener('click', () => {
       if (window.XLSX) {
         const wsData = [
@@ -1563,7 +1526,6 @@
       showToast('Đã tải file mẫu Excel!');
     });
 
-    // Export results
     document.getElementById('btn-export-results').addEventListener('click', () => {
       if (results.length === 0) {
         showToast('⚠️ Chưa có kết quả để xuất!');
@@ -1595,7 +1557,6 @@
       showToast('Đã xuất kết quả thành công!');
     });
 
-    // Copy results
     document.getElementById('btn-copy-results').addEventListener('click', () => {
       if (results.length === 0) {
         showToast('⚠️ Chưa có kết quả để sao chép!');
@@ -1613,7 +1574,6 @@
       }
     });
 
-    // Excel Modal triggers
     const excelModal = document.getElementById('modal-excel');
     document.getElementById('btn-open-excel-modal').addEventListener('click', () => {
       excelModal.classList.remove('hidden');
@@ -1753,7 +1713,6 @@
       showToast(`Đã thêm thành công ${imported.length} người từ Excel!`);
     });
 
-    // Quick import modal
     const quickModal = document.getElementById('modal-quick');
     document.getElementById('btn-open-quick-import').addEventListener('click', () => {
       document.getElementById('textarea-quick').value = '';
@@ -1790,7 +1749,6 @@
       showToast(`Đã thêm ${items.length} người vào danh sách!`);
     });
 
-    // Settings Modal
     const settingsModal = document.getElementById('modal-settings');
     document.getElementById('btn-open-settings').addEventListener('click', () => {
       document.getElementById('menu-dropdown-settings').classList.add('hidden');
@@ -1842,49 +1800,101 @@
       showToast('Đã lưu cấu hình cài đặt!');
     });
 
-    // Branding modal
     const brandingModal = document.getElementById('modal-branding');
-    document.getElementById('btn-open-branding').addEventListener('click', () => {
-      document.getElementById('menu-dropdown-settings').classList.add('hidden');
-      document.getElementById('branding-input-title').value = branding.title;
-      document.getElementById('branding-input-subtitle').value = branding.subtitle;
-      document.getElementById('branding-input-logo').value = branding.logoUrl || DEFAULT_BRANDING.logoUrl;
-      brandingModal.classList.remove('hidden');
-      brandingModal.classList.add('flex');
-    });
+    const btnOpenBranding = document.getElementById('btn-open-branding');
+    if (btnOpenBranding) {
+      btnOpenBranding.addEventListener('click', () => {
+        const menuDrop = document.getElementById('menu-dropdown-settings');
+        if (menuDrop) menuDrop.classList.add('hidden');
+        
+        const inTitle = document.getElementById('branding-input-title');
+        const inSub = document.getElementById('branding-input-subtitle');
+        const inLogo = document.getElementById('branding-input-logo');
+        const inBg = document.getElementById('branding-input-bg');
 
-    document.getElementById('btn-close-branding').addEventListener('click', () => {
-      brandingModal.classList.remove('flex');
-      brandingModal.classList.add('hidden');
-    });
+        if (inTitle) inTitle.value = branding.title || '';
+        if (inSub) inSub.value = branding.subtitle || '';
+        if (inLogo) inLogo.value = branding.logoUrl || DEFAULT_BRANDING.logoUrl;
+        if (inBg) inBg.value = branding.bgUrl || DEFAULT_BRANDING.bgUrl;
 
-    document.getElementById('btn-cancel-branding').addEventListener('click', () => {
-      brandingModal.classList.remove('flex');
-      brandingModal.classList.add('hidden');
-    });
+        if (brandingModal) {
+          brandingModal.classList.remove('hidden');
+          brandingModal.classList.add('flex');
+        }
+      });
+    }
 
-    document.getElementById('btn-save-branding').addEventListener('click', () => {
-      branding.title = document.getElementById('branding-input-title').value.trim() || DEFAULT_BRANDING.title;
-      branding.subtitle = document.getElementById('branding-input-subtitle').value.trim() || DEFAULT_BRANDING.subtitle;
-      branding.logoUrl = document.getElementById('branding-input-logo').value.trim() || DEFAULT_BRANDING.logoUrl;
+    const btnCloseBranding = document.getElementById('btn-close-branding');
+    if (btnCloseBranding && brandingModal) {
+      btnCloseBranding.addEventListener('click', () => {
+        brandingModal.classList.remove('flex');
+        brandingModal.classList.add('hidden');
+      });
+    }
+
+    const btnCancelBranding = document.getElementById('btn-cancel-branding');
+    if (btnCancelBranding && brandingModal) {
+      btnCancelBranding.addEventListener('click', () => {
+        brandingModal.classList.remove('flex');
+        brandingModal.classList.add('hidden');
+      });
+    }
+
+    const btnSaveBranding = document.getElementById('btn-save-branding');
+    if (btnSaveBranding) {
+      btnSaveBranding.addEventListener('click', () => {
+        const inTitle = document.getElementById('branding-input-title');
+        const inSub = document.getElementById('branding-input-subtitle');
+        const inLogo = document.getElementById('branding-input-logo');
+        const inBg = document.getElementById('branding-input-bg');
+
+        if (inTitle) branding.title = inTitle.value.trim() || DEFAULT_BRANDING.title;
+        if (inSub) branding.subtitle = inSub.value.trim() || DEFAULT_BRANDING.subtitle;
+        if (inLogo) branding.logoUrl = inLogo.value.trim() || DEFAULT_BRANDING.logoUrl;
+        if (inBg) branding.bgUrl = inBg.value.trim() || DEFAULT_BRANDING.bgUrl;
+
+        saveState();
+        renderBranding();
+        if (brandingModal) {
+          brandingModal.classList.remove('flex');
+          brandingModal.classList.add('hidden');
+        }
+        showToast('Đã lưu thông tin thương hiệu & hình nền!');
+      });
+    }
+
+    window.toggleBlacklist = function(id) {
+      participants = participants.map(p => {
+        if (p.id === id) {
+          const next = !p.blacklisted;
+          showToast(next ? `Đã thêm "${p.name}" vào Black list (Chặn trúng giải)` : `Đã bỏ "${p.name}" khỏi Black list`);
+          return { ...p, blacklisted: next };
+        }
+        return p;
+      });
       saveState();
-      renderBranding();
-      brandingModal.classList.remove('flex');
-      brandingModal.classList.add('hidden');
-      showToast('Đã lưu thông tin thương hiệu!');
-    });
+      renderAll();
+    };
 
-    // Edit Modal
-    document.getElementById('btn-cancel-edit').addEventListener('click', () => {
-      document.getElementById('modal-edit-item').classList.add('hidden');
-      document.getElementById('modal-edit-item').classList.remove('flex');
-    });
+    window.openEditParticipant = function(id) {
+      const p = participants.find(item => item.id === id);
+      if (!p) return;
+      editParticipantId = id;
+      document.getElementById('edit-input-name').value = p.name;
+      document.getElementById('edit-input-code').value = p.code || '';
+      const blkInput = document.getElementById('edit-input-blacklist');
+      if (blkInput) blkInput.checked = !!p.blacklisted;
+      document.getElementById('modal-edit-item').classList.remove('hidden');
+      document.getElementById('modal-edit-item').classList.add('flex');
+    };
 
     document.getElementById('btn-save-edit').addEventListener('click', () => {
       const name = document.getElementById('edit-input-name').value.trim();
       const code = document.getElementById('edit-input-code').value.trim();
+      const blkInput = document.getElementById('edit-input-blacklist');
+      const blacklisted = blkInput ? blkInput.checked : false;
       if (!name) return;
-      participants = participants.map(p => p.id === editParticipantId ? { ...p, name, code } : p);
+      participants = participants.map(p => p.id === editParticipantId ? { ...p, name, code, blacklisted } : p);
       saveState();
       renderAll();
       document.getElementById('modal-edit-item').classList.add('hidden');
@@ -1892,7 +1902,6 @@
       showToast('Đã cập nhật thông tin!');
     });
 
-    // Reset Modal
     const resetModal = document.getElementById('modal-confirm-reset');
     document.getElementById('btn-trigger-reset-modal').addEventListener('click', () => {
       settingsModal.classList.add('hidden');
@@ -1920,7 +1929,6 @@
       showToast('Đã khôi phục toàn bộ cài đặt gốc!');
     });
 
-    // Prizes Modal
     const prizesModal = document.getElementById('modal-prizes');
     document.getElementById('btn-open-prizes').addEventListener('click', () => {
       document.getElementById('menu-dropdown-settings').classList.add('hidden');
@@ -1968,7 +1976,6 @@
       showToast(`Đã thêm giải "${name}"!`);
     });
 
-    // Direct logo upload listener
     const inputHeaderLogoFile = document.getElementById('input-header-logo-file');
     if (inputHeaderLogoFile) {
       inputHeaderLogoFile.addEventListener('change', (e) => {
@@ -1985,7 +1992,6 @@
       });
     }
 
-    // Winner Modal buttons
     document.getElementById('btn-close-winner').addEventListener('click', () => {
       document.getElementById('modal-winner').classList.add('hidden');
       document.getElementById('modal-winner').classList.remove('flex');
@@ -2000,7 +2006,6 @@
       setTimeout(startSpin, 300);
     });
 
-    // Panel Tabs Switching
     const tabItems = document.getElementById('content-items');
     const tabResults = document.getElementById('content-results');
     const tabBtnItems = document.getElementById('tab-btn-items');
@@ -2047,7 +2052,6 @@
       }
     }
 
-    // Sound Dropdown Toggle
     document.getElementById('btn-toggle-sound').addEventListener('click', () => {
       settings.soundEnabled = !settings.soundEnabled;
       if (!settings.soundEnabled) {
@@ -2058,7 +2062,6 @@
       showToast(settings.soundEnabled ? 'Đã bật âm thanh' : 'Đã tắt âm thanh');
     });
 
-    // Dropdown toggle logic
     const btnDropdown = document.getElementById('btn-dropdown-settings');
     const menuDropdown = document.getElementById('menu-dropdown-settings');
     if (btnDropdown && menuDropdown) {
@@ -2085,7 +2088,6 @@
       });
     }
 
-    // Sidebar Toggle (Collapse / Expand) Logic
     const controlPanel = document.getElementById('control-panel');
     const btnToggleSidebar = document.getElementById('btn-toggle-sidebar');
     const btnCloseSidebarInline = document.getElementById('btn-close-sidebar-inline');
@@ -2105,7 +2107,7 @@
         iconCollapse.classList.add('hidden');
         iconExpand.classList.remove('hidden');
         labelSidebar.textContent = 'Mở rộng DS';
-        showToast('Đã thu gọn danh sách! Vòng quay được mở rộng tối đa.');
+        showToast('Đã thu gọn danh sách!');
       } else {
         controlPanel.classList.remove('hidden');
         iconCollapse.classList.remove('hidden');
@@ -2118,41 +2120,89 @@
     btnToggleSidebar.addEventListener('click', () => toggleSidebar());
     if (btnCloseSidebarInline) btnCloseSidebarInline.addEventListener('click', () => toggleSidebar(true));
 
-    // Fullscreen Toggle
-    const stage = document.getElementById('wheel-stage');
-    const fullscreenBar = document.getElementById('fullscreen-bar');
+    /* =========================================================================
+       FULLSCREEN / EVENT STAGE MODE TOGGLE
+       ========================================================================= */
+    let isFullscreenMode = false;
+    const btnToggleFullscreen = document.getElementById('btn-toggle-fullscreen');
+    const iconFsEnter = document.getElementById('icon-fs-enter');
+    const iconFsExit = document.getElementById('icon-fs-exit');
+    const wrapperDropdown = document.getElementById('wrapper-dropdown-settings');
 
-    function toggleFullscreen() {
-      isFullscreen = !isFullscreen;
-      if (isFullscreen) {
-        stage.classList.add('fixed', 'inset-0', 'z-40', 'bg-neutral-950', 'w-full', 'h-full');
-        controlPanel.classList.add('hidden');
-        fullscreenBar.classList.remove('hidden');
-        fullscreenBar.classList.add('flex');
-        const fsLbl = document.getElementById('label-fullscreen');
-        if (fsLbl) fsLbl.textContent = 'Thu nhỏ';
+    function setFullscreenMode(enable) {
+      isFullscreenMode = enable;
+      const wheelStage = document.getElementById('wheel-stage');
+
+      if (enable) {
+        // Ẩn hoàn toàn nút Cài đặt và nút Thu gọn DS
+        if (wrapperDropdown) wrapperDropdown.classList.add('hidden');
+        if (btnToggleSidebar) btnToggleSidebar.classList.add('hidden');
+        
+        // Ẩn bảng điều khiển danh sách bên phải
+        if (controlPanel) controlPanel.classList.add('hidden');
+
+        // Mở rộng khu vực sân khấu vòng quay
+        if (wheelStage) {
+          wheelStage.classList.add('w-full', 'h-full');
+        }
+
+        // Đổi icon sang trạng thái Thu nhỏ (Exit)
+        iconFsEnter.classList.add('hidden');
+        iconFsExit.classList.remove('hidden');
+        btnToggleFullscreen.setAttribute('title', 'Thoát Full màn hình (Phím ESC)');
+
+        // Thử kích hoạt Fullscreen chuẩn của trình duyệt nếu được phép
+        try {
+          if (!document.fullscreenElement && document.documentElement.requestFullscreen) {
+            document.documentElement.requestFullscreen().catch(() => {});
+          }
+        } catch (e) {}
+
+        showToast('Đã vào chế độ Full màn hình sân khấu!');
       } else {
-        stage.classList.remove('fixed', 'inset-0', 'z-40', 'bg-neutral-950', 'w-full', 'h-full');
-        if (!isSidebarCollapsed) {
+        // Hiện lại các nút điều khiển
+        if (wrapperDropdown) wrapperDropdown.classList.remove('hidden');
+        if (btnToggleSidebar) btnToggleSidebar.classList.remove('hidden');
+
+        // Phục hồi trạng thái hiển thị của thanh danh sách
+        if (!isSidebarCollapsed && controlPanel) {
           controlPanel.classList.remove('hidden');
         }
-        fullscreenBar.classList.add('hidden');
-        fullscreenBar.classList.remove('flex');
-        const fsLbl = document.getElementById('label-fullscreen');
-        if (fsLbl) fsLbl.textContent = 'Toàn màn hình';
+
+        // Đổi icon trở lại
+        iconFsEnter.classList.remove('hidden');
+        iconFsExit.classList.add('hidden');
+        btnToggleFullscreen.setAttribute('title', 'Chế độ Full màn hình sân khấu');
+
+        // Thoát browser fullscreen nếu đang bật
+        try {
+          if (document.fullscreenElement && document.exitFullscreen) {
+            document.exitFullscreen().catch(() => {});
+          }
+        } catch (e) {}
+
+        showToast('Đã thoát Full màn hình!');
       }
-      drawWheel(currentAngle);
+
+      setTimeout(() => drawWheel(currentAngle), 120);
     }
 
-    const btnToggleFs = document.getElementById('btn-toggle-fullscreen');
-    if (btnToggleFs) btnToggleFs.addEventListener('click', toggleFullscreen);
-    const btnExitFs = document.getElementById('btn-exit-fullscreen');
-    if (btnExitFs) btnExitFs.addEventListener('click', toggleFullscreen);
+    if (btnToggleFullscreen) {
+      btnToggleFullscreen.addEventListener('click', () => {
+        setFullscreenMode(!isFullscreenMode);
+      });
+    }
+
+    // Lắng nghe phím ESC để tự động thoát Fullscreen Mode
+    document.addEventListener('fullscreenchange', () => {
+      if (!document.fullscreenElement && isFullscreenMode) {
+        setFullscreenMode(false);
+      }
+    });
 
     btnSpin.addEventListener('click', startSpin);
     canvas.addEventListener('click', startSpin);
 
-    // Keyboard Shortcuts
     window.addEventListener('keydown', (e) => {
       const anyModalOpen = !document.getElementById('modal-winner').classList.contains('hidden') ||
                            !excelModal.classList.contains('hidden') ||
@@ -2175,14 +2225,18 @@
         return;
       }
 
+      // Nhấn ESC để thoát chế độ Full màn hình
+      if (e.code === 'Escape' && isFullscreenMode) {
+        setFullscreenMode(false);
+        return;
+      }
+
       if (e.code === 'Space') {
         const activeTag = document.activeElement ? document.activeElement.tagName : '';
         if (activeTag !== 'INPUT' && activeTag !== 'TEXTAREA') {
           e.preventDefault();
           startSpin();
         }
-      } else if (e.code === 'Escape' && isFullscreen) {
-        toggleFullscreen();
       }
     });
 
