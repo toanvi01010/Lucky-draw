@@ -125,8 +125,24 @@
     <!-- Header Actions: ONLY Dropdown + Toggle Sidebar (NO 'Toàn màn hình' button) -->
     <div class="flex items-center justify-end gap-2 shrink-0 md:w-52">
       
+      <!-- Fullscreen Stage Button -->
+      <button id="btn-toggle-fullscreen" class="w-8 h-8 rounded-full bg-emerald-800/80 hover:bg-emerald-700 text-white flex items-center justify-center border border-emerald-400/40 shadow-sm transition transform hover:scale-105" title="Chế độ Full màn hình sân khấu">
+        <svg id="icon-fs-enter" class="w-4 h-4 text-emerald-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 9V6a2 2 0 0 1 2-2h3"/>
+          <path d="M20 9V6a2 2 0 0 0-2-2h-3"/>
+          <path d="M4 15v3a2 2 0 0 0 2 2h3"/>
+          <path d="M20 15v3a2 2 0 0 1-2 2h-3"/>
+        </svg>
+        <svg id="icon-fs-exit" class="w-4 h-4 text-amber-300 hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 4v3a2 2 0 0 1-2 2H4"/>
+          <path d="M15 4v3a2 2 0 0 0 2 2h3"/>
+          <path d="M9 20v-3a2 2 0 0 0-2-2H4"/>
+          <path d="M15 20v-3a2 2 0 0 1 2-2h3"/>
+        </svg>
+      </button>
+
       <!-- Collapsible Settings Dropdown -->
-      <div class="relative">
+      <div class="relative" id="wrapper-dropdown-settings">
         <button id="btn-dropdown-settings" class="px-3 py-1.5 rounded-lg bg-neutral-800/90 hover:bg-neutral-700/90 text-neutral-200 hover:text-white border border-white/15 transition text-xs font-semibold flex items-center gap-1.5 shadow-sm" title="Menu cài đặt">
           <svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
           <span>Cài đặt</span>
@@ -188,6 +204,19 @@
     <!-- LEFT AREA: WHEEL & STAGE -->
     <main id="wheel-stage" class="flex-1 flex flex-col items-center justify-center p-3 sm:p-6 lg:p-8 relative transition-all duration-300">
       
+      <!-- Active Prize Display Banner Between Menu and Wheel -->
+      <div id="active-prize-banner" onclick="openPrizeModalFromBanner()" class="mb-3 sm:mb-4 px-4 sm:px-6 py-2 rounded-full bg-black/60 border border-amber-400/50 shadow-[0_0_25px_rgba(245,158,11,0.3)] backdrop-blur-md flex items-center justify-center gap-2 cursor-pointer hover:border-amber-300 transition-transform transform hover:scale-[1.02] z-20 group" title="Bấm để xem & đổi giải thưởng đang quay">
+        <svg class="w-4 h-4 text-amber-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"></path></svg>
+        <div class="flex items-center gap-2 flex-wrap justify-center text-xs sm:text-sm">
+          <span class="font-extrabold text-amber-300 uppercase tracking-wider"></span>
+          <span id="active-prize-name-tag" class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-200 font-bold text-xs border border-amber-500/30">Giải Thưởng</span>
+          <span class="text-white/40">•</span>
+          <span id="active-prize-gift-text" class="font-bold text-white tracking-wide">Máy lọc nước RO để gầm Karofi KAQ-UE03</span>
+          <span id="active-prize-count-badge" class="ml-1 text-[11px] font-semibold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">Còn 2/2</span>
+        </div>
+        <svg class="w-3.5 h-3.5 text-neutral-400 group-hover:text-amber-300 transition shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+      </div>
+
       <!-- Canvas Wheel Viewport (Always Centered and Fully Visible) -->
       <div class="relative flex items-center justify-center max-w-full max-h-[72vh] aspect-square">
         <canvas id="wheel-canvas" width="640" height="640" class="w-full max-w-[340px] xs:max-w-[390px] sm:max-w-[480px] md:max-w-[540px] lg:max-w-[590px] xl:max-w-[620px] h-auto drop-shadow-[0_0_35px_rgba(0,0,0,0.85)] cursor-pointer select-none"></canvas>
@@ -313,7 +342,7 @@
 
       <div id="winner-prize-badge" class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-500/25 border border-amber-400 text-amber-300 text-xs sm:text-sm font-bold shadow-md">
         <svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"></path></svg>
-        <span id="winner-prize-name">Giải Đặc Biệt</span>
+        <span id="winner-prize-name">Giải Thưởng</span>
         <span class="text-white/60">•</span>
         <span id="winner-gift-name" class="text-white">Máy lọc nước Karofi KAQ-UE03</span>
       </div>
@@ -759,7 +788,7 @@
     ];
 
     const DEFAULT_PRIZES = [
-      { id: 'prize-1', name: 'Giải Đặc Biệt', gift: 'Máy lọc nước Karofi KAQ-UE03', quantity: 2, wonCount: 0 },
+      { id: 'prize-1', name: 'Giải Thưởng', gift: 'Máy lọc nước Karofi KAQ-UE03', quantity: 2, wonCount: 0 },
       { id: 'prize-2', name: 'Giải Nhất', gift: 'Máy lọc không khí Karofi KAP-M217', quantity: 2, wonCount: 0 },
       { id: 'prize-3', name: 'Giải Nhì', gift: 'Quạt điều hòa làm mát Karofi KAC-H132R', quantity: 3, wonCount: 0 },
       { id: 'prize-4', name: 'Giải Ba', gift: 'Bộ nồi inox 5 đáy cao cấp Karofi', quantity: 5, wonCount: 0 },
@@ -1323,6 +1352,8 @@
         activePrizeId = prizes[0].id;
       }
 
+      updateActivePrizeBanner();
+
       document.getElementById('prizes-total-count').textContent = prizes.length;
       const listContainer = document.getElementById('prizes-list-container');
       if (prizes.length === 0) {
@@ -1369,7 +1400,37 @@
     window.setActivePrize = function(id) {
       activePrizeId = id;
       renderPrizes();
+      updateActivePrizeBanner();
       showToast('Đã chọn giải thưởng để quay!');
+    };
+
+    function updateActivePrizeBanner() {
+      const currentPrize = prizes.find(p => p.id === activePrizeId) || prizes[0];
+      const bannerTierEl = document.getElementById('active-prize-name-tag');
+      const bannerGiftEl = document.getElementById('active-prize-gift-text');
+      const bannerCountEl = document.getElementById('active-prize-count-badge');
+      if (currentPrize) {
+        if (bannerTierEl) bannerTierEl.textContent = currentPrize.name || 'Giải Thưởng';
+        if (bannerGiftEl) bannerGiftEl.textContent = currentPrize.gift || 'Quà tặng lưu niệm';
+        if (bannerCountEl) {
+          const remaining = Math.max(0, currentPrize.quantity - (currentPrize.wonCount || 0));
+          bannerCountEl.textContent = `Còn ${remaining}/${currentPrize.quantity}`;
+          if (remaining === 0) {
+            bannerCountEl.className = 'ml-1 text-[11px] font-semibold px-2 py-0.5 rounded-full bg-rose-500/20 text-rose-300 border border-rose-500/30';
+          } else {
+            bannerCountEl.className = 'ml-1 text-[11px] font-semibold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30';
+          }
+        }
+      }
+    }
+
+    window.openPrizeModalFromBanner = function() {
+      const prizesModal = document.getElementById('modal-prizes');
+      if (prizesModal) {
+        renderPrizes();
+        prizesModal.classList.remove('hidden');
+        prizesModal.classList.add('flex');
+      }
     };
 
     window.deletePrize = function(id) {
@@ -1407,6 +1468,7 @@
       renderResults();
       renderBranding();
       renderPrizes();
+      updateActivePrizeBanner();
       drawWheel(currentAngle);
     }
 
@@ -1620,11 +1682,12 @@
       selectName.innerHTML = excelHeaders.map((h, i) => `<option value="${i}">${h || 'Cột ' + (i+1)}</option>`).join('');
       selectCode.innerHTML = `<option value="-1">-- Không sử dụng --</option>` + excelHeaders.map((h, i) => `<option value="${i}">${h || 'Cột ' + (i+1)}</option>`).join('');
 
-      const lower = excelHeaders.map(h => h.toLowerCase());
-      let nIdx = lower.findIndex(h => h.includes('tên') || h.includes('name'));
+      const lower = excelHeaders.map(h => (h || '').toLowerCase());
+      // Auto-detect common variations in strategic customer Excel sheets
+      let nIdx = lower.findIndex(h => h.includes('khách hàng') || h.includes('đại lý') || h.includes('tên') || h.includes('họ') || h.includes('name') || h.includes('đơn vị'));
       if (nIdx !== -1) selectName.value = nIdx;
-      let cIdx = lower.findIndex(h => h.includes('mã') || h.includes('code') || h.includes('sđt') || h.includes('phone'));
-      if (cIdx !== -1) selectCode.value = cIdx;
+      let cIdx = lower.findIndex(h => h.includes('mã') || h.includes('code') || h.includes('sđt') || h.includes('phone') || h.includes('stt') || h.includes('tỉnh') || h.includes('khu vực'));
+      if (cIdx !== -1 && cIdx !== nIdx) selectCode.value = cIdx;
 
       document.getElementById('excel-preview-area').classList.remove('hidden');
       document.getElementById('btn-confirm-excel').disabled = false;
@@ -2195,43 +2258,45 @@
       }
     });
 
-    btnSpin.addEventListener('click', startSpin);
-    canvas.addEventListener('click', startSpin);
+    // Global Drag & Drop Excel File Support
+    window.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+    });
 
-    window.addEventListener('keydown', (e) => {
-      const anyModalOpen = !document.getElementById('modal-winner').classList.contains('hidden') ||
-                           !excelModal.classList.contains('hidden') ||
-                           !quickModal.classList.contains('hidden') ||
-                           !settingsModal.classList.contains('hidden') ||
-                           !brandingModal.classList.contains('hidden') ||
-                           !prizesModal.classList.contains('hidden') ||
-                           !resetModal.classList.contains('hidden');
-
-      if (anyModalOpen) {
-        if (e.code === 'Escape') {
-          document.getElementById('modal-winner').classList.add('hidden');
-          excelModal.classList.add('hidden');
-          quickModal.classList.add('hidden');
-          settingsModal.classList.add('hidden');
-          brandingModal.classList.add('hidden');
-          prizesModal.classList.add('hidden');
-          resetModal.classList.add('hidden');
-        }
-        return;
-      }
-
-      // Nhấn ESC để thoát chế độ Full màn hình
-      if (e.code === 'Escape' && isFullscreenMode) {
-        setFullscreenMode(false);
-        return;
-      }
-
-      if (e.code === 'Space') {
-        const activeTag = document.activeElement ? document.activeElement.tagName : '';
-        if (activeTag !== 'INPUT' && activeTag !== 'TEXTAREA') {
-          e.preventDefault();
-          startSpin();
-        }
+    window.addEventListener('drop', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const files = e.dataTransfer?.files;
+      if (!files || files.length === 0) return;
+      const file = files[0];
+      if (file.name.endsWith('.xlsx') || file.name.endsWith('.xls') || file.name.endsWith('.csv')) {
+        document.getElementById('modal-excel').classList.remove('hidden');
+        document.getElementById('modal-excel').classList.add('flex');
+        document.getElementById('dropzone-text').textContent = file.name;
+        
+        const reader = new FileReader();
+        reader.onload = (evt) => {
+          try {
+            let rows = [];
+            if (window.XLSX) {
+              const bstr = evt.target.result;
+              const wb = XLSX.read(bstr, { type: 'binary' });
+              const ws = wb.Sheets[wb.SheetNames[0]];
+              rows = XLSX.utils.sheet_to_json(ws, { header: 1 });
+            }
+            const cleaned = rows.filter(r => r && r.length > 0 && r.some(c => c !== undefined && c !== ''));
+            if (cleaned.length > 0) {
+              excelHeaders = cleaned[0].map(h => String(h || '').trim());
+              rawExcelRows = cleaned.slice(1);
+              setupExcelMapping();
+              showToast(`Đã nhận diện file: ${file.name}`);
+            }
+          } catch (err) {
+            showToast('Lỗi khi đọc file Excel!');
+          }
+        };
+        reader.readAsBinaryString(file);
       }
     });
 
@@ -2239,10 +2304,42 @@
       drawWheel(currentAngle);
     });
 
-    window.addEventListener('DOMContentLoaded', () => {
+    // Attach click triggers directly to Spin button & Wheel Canvas
+    if (btnSpin) btnSpin.addEventListener('click', startSpin);
+    if (canvas) canvas.addEventListener('click', startSpin);
+
+    // Keyboard Space shortcut for MC / Event operator
+    window.addEventListener('keydown', (e) => {
+      if (e.code === 'Space' && !e.repeat) {
+        const isModalOpen = document.querySelector('.fixed.inset-0.z-50.flex:not(.hidden)');
+        const activeTag = document.activeElement ? document.activeElement.tagName : '';
+        if (!isModalOpen && activeTag !== 'INPUT' && activeTag !== 'TEXTAREA') {
+          e.preventDefault();
+          startSpin();
+        }
+      }
+    });
+
+    function initApp() {
+      // Ensure participants list is never empty on load
+      if (!participants || participants.length === 0) {
+        participants = [...DEFAULT_PARTICIPANTS];
+      }
+      if (!prizes || prizes.length === 0) {
+        prizes = [...DEFAULT_PRIZES];
+        activePrizeId = prizes[0].id;
+      }
       updateSoundUI();
       renderAll();
-    });
+      drawWheel(currentAngle);
+    }
+
+    // Immediate execution with DOM readyState fallback (prevents blank canvas in webview/iframes)
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initApp);
+    } else {
+      initApp();
+    }
   </script>
 </body>
 </html>
