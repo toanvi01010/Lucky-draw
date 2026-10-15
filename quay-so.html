@@ -353,6 +353,12 @@
             font-weight: 700;
         }
 
+        /* Cột Tên Đại Lý và Mã Số viết hoa */
+        .public-winners-table td:nth-child(2),
+        .public-winners-table td:nth-child(3) {
+            text-transform: uppercase;
+        }
+
         .public-winners-table tbody tr:nth-child(even) { background-color: #fdf6e3; }
         .public-winners-table tbody tr:nth-child(odd) { background-color: #ffffff; }
 
@@ -505,6 +511,7 @@
                 <div class="flex gap-2">
                     <button onclick="exportCSV()" class="bg-green-600 text-white px-3 py-1.5 rounded font-bold text-xs">Xuất CSV</button>
                     <button onclick="exportWinnersImage()" class="bg-amber-600 text-white px-3 py-1.5 rounded font-bold text-xs">Xuất ảnh</button>
+                    <button onclick="copyWinners(this)" class="bg-blue-600 text-white px-3 py-1.5 rounded font-bold text-xs">Copy giải</button>
                     <button onclick="clearAllWinners()" class="bg-red-600 text-white px-3 py-1.5 rounded font-bold text-xs">Xóa hết giải</button>
                     <button onclick="toggleHistory()" class="bg-gray-200 text-gray-800 px-3 py-1.5 rounded font-bold text-xs">Đóng</button>
                 </div>
@@ -1110,7 +1117,16 @@
             }());
         }
 
-        function closeWinner() { playSound('click'); clearWinnerRevealTimers(); document.getElementById('winner-overlay').style.display = 'none'; }
+        function resetSlots() {
+            for (let i = 0; i < 12; i++) document.getElementById(`digit-${i}`).innerText = '0';
+        }
+
+        function closeWinner() {
+            playSound('click');
+            clearWinnerRevealTimers();
+            document.getElementById('winner-overlay').style.display = 'none';
+            if (!isSpinning) resetSlots();
+        }
         function toggleHistory() { playSound('click'); const el = document.getElementById('history-overlay'); el.style.display = el.style.display === 'flex' ? 'none' : 'flex'; if (el.style.display === 'flex') renderHistory(); }
 
         function toggleSettings() {
@@ -1280,7 +1296,39 @@
             link.setAttribute("download", `Karofi_Winners.csv`); link.click();
         }
 
-        const PRIZE_RANK_ORDER = ["Giải Đặc Biệt", "Giải Nhất", "Giải Nhì", "Giải Ba", "Giải Khuyến Khích"];
+        // Copy danh sách trúng giải (Giải thưởng, Tên Đại Lý, Mã Số, Khu Vực) dạng bảng, dán được vào Excel/Zalo
+        async function copyWinners(btn) {
+            const originalLabel = btn.textContent;
+            const flash = (label) => {
+                btn.textContent = label;
+                setTimeout(() => { btn.textContent = originalLabel; }, 1500);
+            };
+            if (winners.length === 0) { flash('Chưa có ai'); return; }
+            playSound('click');
+
+            const sorted = [...winners].sort((a, b) => PRIZE_RANK_ORDER.indexOf(a.prize) - PRIZE_RANK_ORDER.indexOf(b.prize));
+            const text = ['Giải thưởng\tTên Đại Lý\tMã Số\tKhu Vực']
+                .concat(sorted.map(w => [w.prize, (w.name || '').toUpperCase(), (w.code || '').toUpperCase(), w.phone || ''].join('\t')))
+                .join('\n');
+
+            try {
+                await navigator.clipboard.writeText(text);
+            } catch (e) {
+                // Dự phòng khi trình duyệt chặn Clipboard API
+                const ta = document.createElement('textarea');
+                ta.value = text;
+                ta.style.position = 'fixed';
+                ta.style.opacity = '0';
+                document.body.appendChild(ta);
+                ta.select();
+                const ok = document.execCommand('copy');
+                ta.remove();
+                if (!ok) { flash('Không copy được'); return; }
+            }
+            flash('Đã copy!');
+        }
+
+        const PRIZE_RANK_ORDER =["Giải Đặc Biệt", "Giải Nhất", "Giải Nhì", "Giải Ba", "Giải Khuyến Khích"];
 
         async function exportWinnersImage() {
             if (winners.length === 0) { alert("Danh sách trúng giải đang trống!"); return; }
